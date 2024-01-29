@@ -1,1 +1,93 @@
-@import "~bootstrap/dist/css/bootstrap.min.css";
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  margin: 0;
+  background-color: green;
+}
+.box-card {
+  background-color: white;
+  border-radius: 12px;
+  border: 3px 3px solid black;
+  box-shadow: 3px 3px 3px transparent black;
+  display: flex;
+  flex-direction: column-reverse;
+}
+#card {
+  position: relative;
+  width: 150px;
+  height: 200px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  border: 2px solid black;
+  background-color: white;
+  box-shadow: 3px 3px 12px black;
+  flex-wrap: nowrap;
+}
+
+.corner-symbol {
+  position: absolute;
+  font-size: 72px;
+}
+
+.top-left {
+  top: 0;
+  left: 6px;
+  font-size: 69px;
+}
+
+.bottom-right {
+  bottom: 0;
+  right: 10px;
+  font-size: 69px;
+  transform: rotateX(180deg); /* Invierte todos los símbolos horizontalmente */
+}
+
+.centered-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 121px;
+}
+
+.card .spade::before {
+  content: "\2660"; /* Código de carácter para el símbolo de espadas */
+  font-size: 72px;
+  color: black;
+  position: absolute;
+  margin-top: 0;
+  margin-left: 0;
+}
+
+.club::before {
+  content: "\2663"; /* Código de carácter para el símbolo de tréboles */
+  font-size: 72px;
+  color: black;
+  position: absolute;
+  margin-top: 0;
+  margin-left: 0;
+}
+
+.card .heart::before {
+  content: "\2665"; /* Código de carácter para el símbolo de corazones */
+  font-size: 72px;
+  color: red;
+  position: absolute;
+  margin-top: 0;
+  margin-left: 0;
+}
+
+.diamond::before {
+  content: "\2666"; /* Código de carácter para el símbolo de diamantes */
+  font-size: 72px;
+  color: red;
+  position: absolute;
+  margin-top: 0;
+  margin-left: 0;
+}
