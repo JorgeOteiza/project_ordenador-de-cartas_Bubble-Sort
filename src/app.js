@@ -1,65 +1,105 @@
-// Obtén el contenedor de las cartas
-const cardContainer = document.getElementById("cardContainer");
+import "./style.css";
 
-// Función para crear una carta con un valor aleatorio
-function createCard(value) {
+const suitsSymbols = {
+  spade: "♠",
+  club: "♣",
+  heart: "♥",
+  diamond: "♦"
+};
+
+function getRandomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+// Función para generar una carta
+function generateCard(randomSuit, randomCardNumber) {
+  // Crea la carta
   const card = document.createElement("div");
-  card.classList.add("card-container");
+  card.className = "card";
 
-  const cornerSymbolTL = document.createElement("div");
-  cornerSymbolTL.classList.add("corner-symbol", "top-left");
+  // Crea los elementos para los símbolos en las esquinas
+  const topSymbol = document.createElement("div");
+  topSymbol.className = "corner-symbol top-left";
+  topSymbol.textContent = suitsSymbols[randomSuit];
 
-  const cornerSymbolBR = document.createElement("div");
-  cornerSymbolBR.classList.add("corner-symbol", "bottom-right");
+  const bottomSymbol = document.createElement("div");
+  bottomSymbol.className = "corner-symbol bottom-right";
+  bottomSymbol.textContent = suitsSymbols[randomSuit];
 
+  // Crea el elemento para el número o letra centrado
   const centeredText = document.createElement("div");
-  centeredText.classList.add("centered-text");
-  centeredText.textContent = value;
+  centeredText.className = "centered-text";
+  const cardNumber =
+    randomCardNumber < 9
+      ? randomCardNumber + 2
+      : ["J", "Q", "K", "A"][randomCardNumber - 9];
+  centeredText.textContent = cardNumber;
 
-  card.appendChild(cornerSymbolTL);
-  card.appendChild(cornerSymbolBR);
+  // Verifica si la carta es roja y cambia el color del símbolo de corazones a rojo
+  if (randomSuit === "heart" || randomSuit === "diamond") {
+    topSymbol.style.color = "red";
+    bottomSymbol.style.color = "red";
+  }
+
+  // Agrega los elementos a la carta
+  card.appendChild(topSymbol);
   card.appendChild(centeredText);
+  card.appendChild(bottomSymbol);
 
   return card;
 }
 
-// Función para agregar 13 cartas al contenedor
-function addRandomCards() {
-  for (let i = 0; i < 13; i++) {
-    const value = getRandomNumber();
-    const card = createCard(value);
-    cardContainer.appendChild(card);
-  }
+// Función para generar cartas automáticamente
+function generateCards() {
+  const cardsContainer = document.getElementById("cardsContainer");
 
-  // Función para generar un número aleatorio entre 1 y 13
-  function getRandomNumber() {
-    return Math.floor(Math.random() * 13) + 1;
+  for (let i = 1; i <= 13; i++) {
+    const randomSuitIndex = getRandomNumber(0, 3);
+    const randomCardNumber = getRandomNumber(0, 13);
+    const randomSuit = suitsSymbols[randomSuitIndex];
+
+    // Crea una carta
+    const card = generateCard(randomSuit, randomCardNumber);
+
+    // Agrega la carta al contenedor
+    cardsContainer.appendChild(card);
   }
 }
+
+// Llama a la función para generar cartas al cargar la página
+generateCards();
 
 // Función para ordenar las cartas con Bubble Sort
 function bubbleSort() {
-  const cards = Array.from(cardContainer.children);
+  const cardsContainer = document.querySelectorAll(".card");
+  const cardsArray = Array.from(cardsContainer);
 
-  for (let i = 0; i < cards.length - 1; i++) {
-    for (let j = 0; j < cards.length - i - 1; j++) {
-      const cardA = parseInt(
-        cards[j].querySelector(".centered-text").textContent
+  for (let i = 0; i < cardsArray.length - 1; i++) {
+    for (let j = 0; j < cardsArray.length - 1 - i; j++) {
+      const currentCard = cardsArray[j];
+      const nextCard = cardsArray[j + 1];
+
+      const currentCardValue = parseInt(
+        currentCard.querySelector(".centered-text").textContent
       );
-      const cardB = parseInt(
-        cards[j + 1].querySelector(".centered-text").textContent
+      const nextCardValue = parseInt(
+        nextCard.querySelector(".centered-text").textContent
       );
 
-      if (cardA > cardB) {
-        // Intercambiar las cartas
-        cardContainer.insertBefore(cards[j + 1], cards[j]);
+      if (currentCardValue > nextCardValue) {
+        const temp = cardsArray[j];
+        cardsArray[j] = cardsArray[j + 1];
+        cardsArray[j + 1] = temp;
       }
     }
   }
+
+  // Mueve las cartas ordenadas al contenedor
+  const cardContainer = document.getElementById("cardsContainer");
+  cardContainer.innerHTML = "";
+  cardsArray.forEach(card => {
+    cardContainer.appendChild(card);
+  });
 }
 
-// Agrega las cartas al cargar la página y ordena con Bubble Sort
-window.onload = () => {
-  addRandomCards();
-  bubbleSort();
-};
+// Llama a la función para ordenar las cartas
+bubbleSort();

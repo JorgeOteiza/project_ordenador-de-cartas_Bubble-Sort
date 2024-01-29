@@ -5,34 +5,45 @@ body {
   height: 100vh;
   width: 100%;
   margin: 0;
-  background-color: green;
+  background-color: rgb(0, 128, 0);
 }
 .box-card {
-  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 180px;
+  width: 100%;
+  background-color: rgb(0, 128, 0);
   border-radius: 12px;
   border: 3px 3px solid black;
   box-shadow: 3px 3px 3px transparent black;
-  display: flex;
-  flex-direction: column-reverse;
-}
-#card {
-  position: relative;
-  width: 150px;
-  height: 200px;
-  display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  border-radius: 12px;
-  border: 2px solid black;
+  overflow-x: auto;
+}
+
+.cards-container {
+  display: flex;
+  gap: 10px;
+  background-color: rgb(0, 128, 0);
+  overflow-x: auto; /* Barra de desplazamiento horizontal si es necesario */
+}
+
+.card {
+  width: 100px;
+  height: 160px;
+  border-radius: 9px;
+  border: 1px solid black;
   background-color: white;
   box-shadow: 3px 3px 12px black;
-  flex-wrap: nowrap;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
 }
 
 .corner-symbol {
-  position: absolute;
-  font-size: 72px;
+  font-size: 20px;
 }
 
 .top-left {
@@ -53,7 +64,7 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 121px;
+  font-size: 24px;
 }
 
 .card .spade::before {
