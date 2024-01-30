@@ -10,6 +10,7 @@ const suitsSymbols = {
 function getRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
 // Función para generar una carta
 function generateCard(randomSuit, randomCardNumber) {
   // Crea la carta
@@ -45,7 +46,7 @@ function generateCard(randomSuit, randomCardNumber) {
   card.appendChild(centeredText);
   card.appendChild(bottomSymbol);
 
-  return card;
+  return card.outerHTML; // Devuelve el HTML completo de la carta
 }
 
 // Función para generar cartas automáticamente
@@ -55,23 +56,20 @@ function generateCards() {
   for (let i = 1; i <= 13; i++) {
     const randomSuitIndex = getRandomNumber(0, 3);
     const randomCardNumber = getRandomNumber(0, 13);
-    const randomSuit = suitsSymbols[randomSuitIndex];
+    const randomSuit = Object.values(suitsSymbols)[randomSuitIndex];
 
-    // Crea una carta
-    const card = generateCard(randomSuit, randomCardNumber);
-
-    // Agrega la carta al contenedor
-    cardsContainer.appendChild(card);
+    // Crea una carta y agrega al contenedor
+    cardsContainer.insertAdjacentHTML(
+      "beforeend",
+      generateCard(randomSuit, randomCardNumber)
+    );
   }
 }
 
-// Llama a la función para generar cartas al cargar la página
-generateCards();
-
 // Función para ordenar las cartas con Bubble Sort
 function bubbleSort() {
-  const cardsContainer = document.querySelectorAll(".card");
-  const cardsArray = Array.from(cardsContainer);
+  const cardsContainer = document.getElementById("cardsContainer");
+  const cardsArray = Array.from(cardsContainer.children);
 
   for (let i = 0; i < cardsArray.length - 1; i++) {
     for (let j = 0; j < cardsArray.length - 1 - i; j++) {
@@ -86,20 +84,13 @@ function bubbleSort() {
       );
 
       if (currentCardValue > nextCardValue) {
-        const temp = cardsArray[j];
-        cardsArray[j] = cardsArray[j + 1];
-        cardsArray[j + 1] = temp;
+        cardsContainer.insertBefore(nextCard, currentCard);
       }
     }
   }
-
-  // Mueve las cartas ordenadas al contenedor
-  const cardContainer = document.getElementById("cardsContainer");
-  cardContainer.innerHTML = "";
-  cardsArray.forEach(card => {
-    cardContainer.appendChild(card);
-  });
 }
+// Llama a la función para generar cartas al cargar la página
+generateCards();
 
 // Llama a la función para ordenar las cartas
 bubbleSort();

@@ -43,7 +43,7 @@ body {
 }
 
 .corner-symbol {
-  font-size: 20px;
+  font-size: 24px; /* Ajusta el tamaño de los símbolos en las esquinas */
 }
 
 .top-left {
