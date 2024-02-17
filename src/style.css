@@ -12,20 +12,18 @@ body {
   align-items: center;
   justify-content: center;
   height: 180px;
-  width: 100%;
+  width: max-content;
   background-color: rgb(0, 128, 0);
   border-radius: 12px;
   border: 3px 3px solid black;
   box-shadow: 3px 3px 3px transparent black;
   flex-direction: row;
-  overflow-x: auto;
 }
 
 .cards-container {
   display: flex;
   gap: 10px;
   background-color: rgb(0, 128, 0);
-  overflow-x: auto; /* Barra de desplazamiento horizontal si es necesario */
 }
 
 .card {
@@ -60,11 +58,13 @@ body {
 }
 
 .centered-text {
-  position: absolute;
+  /* position: absolute; */
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  /* left: 50%;
+  transform: translate(-50%, -50%); */
   font-size: 24px;
+  width: 100px;
+  text-align: center;
 }
 
 .card .spade::before {
