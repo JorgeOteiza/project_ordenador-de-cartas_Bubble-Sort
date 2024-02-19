@@ -43,11 +43,11 @@ function generateCard(randomSuit, randomCardNumber) {
   return card.outerHTML;
 }
 
-function generateCards() {
+function generateCards(numCards) {
   const cardsContainer = document.getElementById("cardsContainer");
   cardsContainer.innerHTML = "";
 
-  for (let i = 1; i <= 12; i++) {
+  for (let i = 0; i < numCards; i++) {
     const randomSuitIndex = getRandomNumber(0, 3);
     const randomCardNumber = getRandomNumber(0, 13);
     const randomSuit = Object.keys(suitsSymbols)[randomSuitIndex];
@@ -96,10 +96,9 @@ function startSorting() {
   }, 15000);
 }
 
-const button = document.querySelector("button");
+const sortButton = document.getElementById("sortButton");
 
-button.addEventListener("click", () => {
-  bubbleSort();
+sortButton.addEventListener("click", () => {
+  generateCards(document.getElementById("numCards").value);
+  startSorting();
 });
-
-generateCards();
