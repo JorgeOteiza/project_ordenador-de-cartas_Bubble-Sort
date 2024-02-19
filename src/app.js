@@ -45,6 +45,7 @@ function generateCard(randomSuit, randomCardNumber) {
 
 function generateCards() {
   const cardsContainer = document.getElementById("cardsContainer");
+  cardsContainer.innerHTML = "";
 
   for (let i = 1; i <= 12; i++) {
     const randomSuitIndex = getRandomNumber(0, 3);
@@ -81,6 +82,18 @@ function bubbleSort() {
       }
     }
   }
+}
+
+function startSorting() {
+  const button = document.getElementById("sortButton");
+  button.disabled = true;
+
+  const intervalId = setInterval(bubbleSort, 1000);
+
+  setTimeout(() => {
+    clearInterval(intervalId);
+    button.disabled = false;
+  }, 15000);
 }
 
 const button = document.querySelector("button");
