@@ -46,7 +46,7 @@ function generateCard(randomSuit, randomCardNumber) {
 function generateCards() {
   const cardsContainer = document.getElementById("cardsContainer");
 
-  for (let i = 1; i <= 13; i++) {
+  for (let i = 1; i <= 12; i++) {
     const randomSuitIndex = getRandomNumber(0, 3);
     const randomCardNumber = getRandomNumber(0, 13);
     const randomSuit = Object.keys(suitsSymbols)[randomSuitIndex];
@@ -76,9 +76,17 @@ function bubbleSort() {
 
       if (currentCardValue > nextCardValue) {
         cardsContainer.insertBefore(nextCard, currentCard);
+        cardsArray[j] = nextCard;
+        cardsArray[j + 1] = currentCard;
       }
     }
   }
 }
+
+const button = document.querySelector("button");
+
+button.addEventListener("click", () => {
+  bubbleSort();
+});
 
 generateCards();
