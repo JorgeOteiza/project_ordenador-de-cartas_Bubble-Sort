@@ -35,7 +35,7 @@ body {
 }
 
 .card {
-  width: calc(21% - 18px);
+  width: calc(16% - 14px);
   height: 160px;
   border-radius: 9px;
   border: 1px solid black;
@@ -107,9 +107,10 @@ body {
 }
 
 button {
-  padding: inherit;
-  margin-top: 9px;
-  border-radius: 33px;
-  box-shadow: 3px 4px 27px white;
-  border: 1px solid greenyellow;
+  padding: 9px;
+  border-radius: 6px;
+  box-shadow: 0px 0px 12px greenyellow;
+  background-color: black;
+  color: white;
+  margin: 9px;
 }

@@ -10,15 +10,18 @@
       integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="./src/style.css" />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <h5>Original:</h5>
+    <input type="number" id="numCards" />
+    <button id="sortButton">draw</button>
+    <button id="drawButton">Sort</button>
     <div class="box-card" id="card">
       <div class="cards-container" id="cardsContainer"></div>
-      
-      <button id="sortButton">Ordenar Cartas</button>
     </div>
+    <div class="bubble-log" id="bubbleLog"></div>
 
-    <script src="./src/app.js"></script></script>
+    <script src="./src/app.js"></script>
   </body>
 </html>

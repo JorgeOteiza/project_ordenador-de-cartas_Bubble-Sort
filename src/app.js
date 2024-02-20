@@ -1,4 +1,5 @@
 import "./style.css";
+import { generateCards } from "./generateCards.js";
 
 const suitsSymbols = {
   spade: "♠",
@@ -43,20 +44,44 @@ function generateCard(randomSuit, randomCardNumber) {
   return card.outerHTML;
 }
 
-function generateCards(numCards) {
-  const cardsContainer = document.getElementById("cardsContainer");
-  cardsContainer.innerHTML = "";
+function generateCardRow(cards) {
+  const row = document.createElement("div");
+  row.className = "card-row";
 
-  for (let i = 0; i < numCards; i++) {
-    const randomSuitIndex = getRandomNumber(0, 3);
-    const randomCardNumber = getRandomNumber(0, 13);
-    const randomSuit = Object.keys(suitsSymbols)[randomSuitIndex];
+  cards.forEach(card => {
+    const cardElement = document.createElement("div");
+    cardElement.innerHTML = card;
+    row.appendChild(cardElement);
+  });
 
-    cardsContainer.insertAdjacentHTML(
-      "beforeend",
-      generateCard(randomSuit, randomCardNumber)
-    );
+  return row;
+}
+
+function generateCardRows(cards, cardsPerRow) {
+  const cardRows = [];
+  for (let i = 0; i < cards.length; i += cardsPerRow) {
+    const row = generateCardRow(cards.slice(i, i + cardsPerRow));
+    cardRows.push(row);
   }
+  return cardRows;
+}
+
+function drawCardsAndRows(numCards) {
+  const cardsContainer = document.getElementById("cardsContainer");
+  const bubbleLog = document.getElementById("bubbleLog");
+
+  // Dibujar cartas aleatorias
+  generateCards(numCards);
+
+  const allCards = Array.from(cardsContainer.children);
+
+  const cardRows = generateCardRows(allCards, 6);
+
+  bubbleLog.innerHTML = "";
+
+  cardRows.forEach(row => {
+    bubbleLog.appendChild(row);
+  });
 }
 
 function bubbleSort() {
@@ -97,8 +122,18 @@ function startSorting() {
 }
 
 const sortButton = document.getElementById("sortButton");
+const drawButton = document.getElementById("drawButton");
+
+drawButton.addEventListener("click", () => {
+  generateCards(document.getElementById("numCards").value);
+});
 
 sortButton.addEventListener("click", () => {
   generateCards(document.getElementById("numCards").value);
   startSorting();
+});
+
+drawButton.addEventListener("click", () => {
+  const numCards = document.getElementById("numCards").value;
+  drawCardsAndRows(numCards);
 });
