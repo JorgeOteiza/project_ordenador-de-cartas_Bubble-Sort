@@ -4,24 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Orden de cartas, método select</title>
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
-      integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="src/style.css" type="text/css" />
   </head>
   <body>
-    <h5>Original:</h5>
+    <h5>Cantidad de cartas:</h5>
     <input type="number" id="numCards" />
-    <button id="sortButton">draw</button>
-    <button id="drawButton">Sort</button>
+    <button id="draw">draw</button>
+    <button id="sort">Sort</button>
     <div class="box-card" id="card">
       <div class="cards-container" id="cardsContainer"></div>
     </div>
-    <div class="bubble-log" id="bubbleLog"></div>
+    <div class="bubble-log" id="bubbleLog">bubble log</div>
 
-    <script src="./src/app.js"></script>
+    <script src="src/app.js" type="module"></script>
   </body>
 </html>
