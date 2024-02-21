@@ -1,6 +1,25 @@
 import "./style.css";
 import { generateCards } from "./generateCards.js";
 
+function bubbleSort(arr) {
+  const len = arr.length;
+  let swapped;
+
+  do {
+    swapped = false;
+    for (let i = 0; i < len - 1; i++) {
+      if (arr[i].textContent > arr[i + 1].textContent) {
+        const temp = arr[i];
+        arr[i] = arr[i + 1];
+        arr[i + 1] = temp;
+        swapped = true;
+      }
+    }
+  } while (swapped);
+
+  return arr;
+}
+
 function generateCardRow(cards) {
   const row = document.createElement("div");
   row.className = "card-row";
@@ -32,9 +51,7 @@ function draw(numCards) {
 
   const cards = generateCards(numCards);
   cards.forEach(card => {
-    const cardElement = document.createElement("div");
-    cardElement.innerHTML = card;
-    cardsContainer.appendChild(cardElement);
+    cardsContainer.appendChild(card);
   });
 
   bubbleLog.innerHTML = "";
@@ -74,6 +91,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
   sortButton.addEventListener("click", () => {
     const numCards = document.getElementById("numCards").value;
-    generateColumns(numCards);
+    const cardsContainer = document.getElementById("cardsContainer");
+    const allCards = Array.from(cardsContainer.children);
+    const sortedCards = bubbleSort(allCards);
+    cardsContainer.innerHTML = "";
+    sortedCards.forEach(card => {
+      cardsContainer.appendChild(card);
+    });
   });
 });
