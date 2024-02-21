@@ -6,7 +6,9 @@ const app = express();
 app.use(
   express.static(path.join(__dirname, "src"), {
     setHeaders: (res, path, stat) => {
-      if (path.endsWith(".css")) {
+      if (path.endsWith(".js")) {
+        res.setHeader("Content-Type", "application/javascript");
+      } else if (path.endsWith(".css")) {
         res.setHeader("Content-Type", "text/css");
       }
     },

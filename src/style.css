@@ -14,6 +14,21 @@ body {
   margin-top: 20px;
 }
 
+button {
+  padding: 9px;
+  border-radius: 6px;
+  box-shadow: 0px 0px 12px greenyellow;
+  background-color: black;
+  color: white;
+  margin: 9px;
+}
+
+#numCards {
+  width: 120px;
+  padding: 3px;
+  margin-bottom: 3px;
+}
+
 .box-card {
   background-color: green;
   display: flex;
@@ -41,6 +56,7 @@ body {
 
 h5 {
   font-size: large;
+  margin: 15px;
 }
 
 .bubble-log {
@@ -122,13 +138,4 @@ h5 {
   position: absolute;
   margin-top: 0;
   margin-left: 0;
-}
-
-button {
-  padding: 9px;
-  border-radius: 6px;
-  box-shadow: 0px 0px 12px greenyellow;
-  background-color: black;
-  color: white;
-  margin: 9px;
 }

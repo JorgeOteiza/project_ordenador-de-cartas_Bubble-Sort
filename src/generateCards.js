@@ -38,14 +38,34 @@ function generateCard(randomSuit, randomCardNumber) {
 }
 
 export function generateCards(numCards) {
+  const suitsSymbols = ["♠", "♣", "♥", "♦"];
   const cards = [];
+
   for (let i = 0; i < numCards; i++) {
-    const randomSuit = Object.keys(suitsSymbols)[
-      Math.floor(Math.random() * Object.keys(suitsSymbols).length)
-    ];
-    const randomCardNumber = Math.floor(Math.random() * 13);
+    const randomSuit =
+      suitsSymbols[Math.floor(Math.random() * suitsSymbols.length)];
+    const randomCardNumber = Math.floor(Math.random() * 13) + 2;
     const cardElement = generateCard(randomSuit, randomCardNumber);
     cards.push(cardElement);
   }
+
   return cards;
+}
+
+function generateCardRow(cards) {
+  const row = document.createElement("div");
+  row.className = "card-row";
+
+  cards.forEach(card => {
+    row.appendChild(card);
+  });
+
+  return row;
+}
+
+export function generateCardRows(cards, cardsPerRow) {
+  const cardRows = [];
+  const row = generateCardRow(cards);
+  cardRows.push(row);
+  return cardRows;
 }
