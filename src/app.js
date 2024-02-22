@@ -1,9 +1,5 @@
-import "./style.css";
-import {
-  generateCards,
-  generateCardRows,
-  bubbleSort
-} from "./generateCards.js";
+import { generateCards, generateCardRows } from "./generateCards.js";
+import { bubbleSortCards } from "./sortCards.js";
 
 document.addEventListener("DOMContentLoaded", function() {
   const sortButton = document.getElementById("sort");
@@ -33,22 +29,8 @@ function draw() {
   displayChangeLog();
 }
 
-function bubbleSortCards() {
-  const cardsContainer = document.getElementById("cardsContainer");
-  const allCards = Array.from(cardsContainer.children);
-
-  const sortedCards = bubbleSort(allCards);
-  cardsContainer.innerHTML = "";
-
-  sortedCards.forEach(card => {
-    cardsContainer.appendChild(card);
-  });
-
-  displayChangeLog();
-}
-
 function displayChangeLog() {
-  const bubbleLog = document.getElementById("bubbleLog");
+  const bubbleLog = document.getElementById("cardsContainer");
   bubbleLog.innerHTML = "";
 
   const cardRows = generateCardRows(initialCardState, 6);

@@ -11,11 +11,11 @@ function generateCard(randomSuit, randomCardNumber) {
 
   const topSymbol = document.createElement("div");
   topSymbol.className = "corner-symbol top-left";
-  topSymbol.textContent = suitsSymbols[randomSuit];
+  topSymbol.textContent = randomSuit;
 
   const bottomSymbol = document.createElement("div");
   bottomSymbol.className = "corner-symbol bottom-right";
-  bottomSymbol.textContent = suitsSymbols[randomSuit];
+  bottomSymbol.textContent = randomSuit;
 
   const centeredText = document.createElement("div");
   centeredText.className = "centered-text";
