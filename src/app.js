@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const drawButton = document.getElementById("draw");
 
   drawButton.addEventListener("click", draw);
-  sortButton.addEventListener("click", bubbleSortCards);
+  sortButton.addEventListener("click", bubbleSortHandler);
 });
 
 let initialCardState = [];
@@ -29,12 +29,22 @@ function draw() {
   displayChangeLog();
 }
 
-function displayChangeLog() {
-  const bubbleLog = document.getElementById("cardsContainer");
-  bubbleLog.innerHTML = "";
+function displayBubbleLog(bubbleLog) {
+  const bubbleLogContainer = document.getElementById("bubbleLog");
+  bubbleLogContainer.innerHTML = "";
 
-  const cardRows = generateCardRows(initialCardState, 6);
-  cardRows.forEach(row => {
-    bubbleLog.appendChild(row);
+  bubbleLog.forEach(log => {
+    const logItem = document.createElement("div");
+    logItem.textContent = log;
+    bubbleLogContainer.appendChild(logItem);
   });
+}
+
+function displayChangeLog() {
+  const bubbleLog = bubbleSortCards();
+  displayBubbleLog(bubbleLog);
+}
+
+function bubbleSortHandler() {
+  displayChangeLog();
 }

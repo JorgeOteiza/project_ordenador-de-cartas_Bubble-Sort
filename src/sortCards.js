@@ -1,43 +1,38 @@
-export function bubbleSortCards() {
-  const [cardsContainer] = document.querySelectorAll(".card-row");
-  debugger;
-  const allCards = Array.from(cardsContainer.children);
+import { displayChangeLog } from "./app.js";
 
-  const sortedCards = bubbleSort(allCards);
-  cardsContainer.innerHTML = "";
-  sortedCards.forEach(card => {
-    cardsContainer.appendChild(card);
-  });
-
-  displayChangeLog();
-}
-
-// Bubble sort Implementation using Javascript
-
-// Creating the bblSort function
-function bblSort(arr) {
+function bubbleSort(arr) {
+  const bubbleLog = [];
   for (var i = 0; i < arr.length; i++) {
-    // Generar copia del arreglo y agregarlo al log
-
-    // Last i elements are already in place
     for (var j = 0; j < arr.length - i - 1; j++) {
-      // Checking if the item at present iteration
-      // is greater than the next iteration
-      if (arr[j] > arr[j + 1]) {
-        // If the condition is true
-        // then swap them
-        var temp = arr[j];
+      const value1 = parseInt(
+        arr[j].querySelector(".centered-text").textContent
+      );
+      const value2 = parseInt(
+        arr[j + 1].querySelector(".centered-text").textContent
+      );
+      if (value1 > value2) {
+        const temp = arr[j];
         arr[j] = arr[j + 1];
         arr[j + 1] = temp;
+        bubbleLog.push(`Swapped ${value1} with ${value2}`);
       }
     }
   }
-
-  // Print the sorted array
-  console.log(arr);
+  return bubbleLog;
 }
 
-function bubbleSort(elementList) {
+export function bubbleSortCards() {
+  const cardsContainer = document.getElementById("cardsContainer");
+  if (!cardsContainer) {
+    console.error("No se pudo encontrar el contenedor de cartas");
+    return;
+  }
+  const allCards = Array.from(cardsContainer.children);
+
+  return bubbleSort(allCards);
+}
+
+function customBubbleSort(elementList) {
   const arrayNumbers = elementList.map(el => {
     const value = el.querySelector(".centered-text").innerHTML;
     if (value === "J") return 10;
@@ -47,9 +42,11 @@ function bubbleSort(elementList) {
     else return Number(value);
   });
 
-  bblSort(arrayNumbers);
+  customBubbleSort(arrayNumbers);
 
   return elementList;
 }
 
 function displayChangeLog() {}
+
+export { bubbleSort };

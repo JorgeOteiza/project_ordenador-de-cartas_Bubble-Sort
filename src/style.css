@@ -125,19 +125,10 @@ h5 {
   margin-left: 0;
 }
 
-.card .heart::before {
-  content: "\2665";
+.card .heart::before,
+.card .diamond::before {
   font-size: 72px;
-  color: red;
-  position: absolute;
-  margin-top: 0;
-  margin-left: 0;
-}
-
-.diamond::before {
-  content: "\2666";
-  font-size: 72px;
-  color: red;
+  color: rgb(240, 4, 4) !important;
   position: absolute;
   margin-top: 0;
   margin-left: 0;

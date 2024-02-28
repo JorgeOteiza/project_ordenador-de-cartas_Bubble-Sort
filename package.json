@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "start": "webpack-dev-server --mode development --port 3000 --open",
-    "build": "webpack --mode development --verbose --colors --display-error-details",
+    "build": "webpack --mode development --verbose --colors --display-error-details --babel src -d dist",
     "deploy": "node deploy-to-github.js"
   },
   "repository": {
@@ -33,12 +33,12 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.5.1",
     "@popperjs/core": "^2.10.1",
-    "bootstrap": "^5.1.1"
+    "bootstrap": "^5.3.3"
   },
   "devDependencies": {
-    "@babel/cli": "^7.4.3",
-    "@babel/core": "^7.4.3",
-    "@babel/preset-env": "^7.4.3",
+    "@babel/cli": "^7.23.9",
+    "@babel/core": "^7.23.9",
+    "@babel/preset-env": "^7.23.9",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.5",
     "bc-console": "0.0.2",
