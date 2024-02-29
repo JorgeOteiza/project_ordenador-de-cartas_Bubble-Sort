@@ -48,3 +48,5 @@ function displayChangeLog() {
 function bubbleSortHandler() {
   displayChangeLog();
 }
+
+export { draw, displayChangeLog, bubbleSortHandler };
