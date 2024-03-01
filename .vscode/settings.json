@@ -4,5 +4,14 @@
   "workbench.editorAssociations": {
     "*.md": "vscode.markdown.preview.editor"
   },
-  "cSpell.words": ["Aray", "encontrar", "esquinas", "número", "pudo"]
+  "cSpell.words": [
+    "animación",
+    "Aray",
+    "encontrado",
+    "encontrar",
+    "esquinas",
+    "número",
+    "Ocurrió",
+    "pudo"
+  ]
 }

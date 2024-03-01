@@ -5,7 +5,7 @@ export function generateCards(numCards) {
   for (let i = 0; i < numCards; i++) {
     const randomSuit =
       suitsSymbols[Math.floor(Math.random() * suitsSymbols.length)];
-    const randomCardNumber = Math.floor(Math.random() * 13) + 2;
+    const randomCardNumber = Math.floor(Math.random() * 13) + 1;
     const cardElement = generateCard(randomSuit, randomCardNumber);
     cards.push(cardElement);
   }
@@ -28,14 +28,18 @@ function generateCard(randomSuit, randomCardNumber) {
   const centeredText = document.createElement("div");
   centeredText.className = "centered-text";
   const cardNumber =
-    randomCardNumber < 9
-      ? randomCardNumber + 2
-      : ["J", "Q", "K", "A"][randomCardNumber - 9];
+    randomCardNumber === 1
+      ? "A"
+      : randomCardNumber < 11
+      ? randomCardNumber
+      : ["J", "Q", "K"][randomCardNumber - 11];
   centeredText.textContent = cardNumber;
 
-  if (randomSuit === "heart" || randomSuit === "diamond") {
-    topSymbol.style.color = "red";
-    bottomSymbol.style.color = "red";
+  if (randomSuit === "♠" && randomCardNumber === 1) {
+    centeredText.innerHTML += '<span class="spade-symbol">&spades;</span>';
+  } else if (randomSuit === "♥" || randomSuit === "♦") {
+    topSymbol.classList.add("heart");
+    bottomSymbol.classList.add("heart");
   }
 
   card.appendChild(topSymbol);
@@ -47,18 +51,18 @@ function generateCard(randomSuit, randomCardNumber) {
 
 export function generateCardRows(cards, cardsPerRow) {
   const cardRows = [];
-  const row = generateCardRow(cards);
-  cardRows.push(row);
+  for (let i = 0; i < cards.length; i += cardsPerRow) {
+    const row = generateCardRow(cards.slice(i, i + cardsPerRow));
+    cardRows.push(row);
+  }
   return cardRows;
 }
 
 function generateCardRow(cards) {
   const row = document.createElement("div");
   row.className = "card-row";
-
   cards.forEach(card => {
     row.appendChild(card);
   });
-
   return row;
 }

@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import { generateCards, generateCardRows } from "./generateCards.js";
 import { bubbleSortCards, animateBubbleSort } from "./sortCards.js";
 
@@ -6,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const sortButton = document.getElementById("sort");
 
   drawButton.addEventListener("click", draw);
-  sortButton.addEventListener("click", bubbleSortHandler);
+  sortButton.addEventListener("click", sortAndAnimate);
 });
 
 let initialCardState = [];
@@ -14,11 +16,16 @@ let initialCardState = [];
 function draw() {
   const numCardsInput = document.getElementById("numCards");
   const numCards = parseInt(numCardsInput.value);
-  const cards = generateCards(numCards);
+  const cardsContainer = document.getElementById("cardsContainer");
 
+  if (!cardsContainer) {
+    console.error("Elemento cardsContainer no encontrado en el DOM.");
+    return;
+  }
+
+  const cards = generateCards(numCards);
   initialCardState = cards.slice();
 
-  const cardsContainer = document.getElementById("cardsContainer");
   cardsContainer.innerHTML = "";
 
   const cardRows = generateCardRows(cards, 6);
@@ -26,23 +33,32 @@ function draw() {
     cardsContainer.appendChild(row);
   });
 
-  displayBubbleLog(bubbleSortCards());
+  sortAndAnimate();
+}
+
+function sortAndAnimate() {
+  const cardsContainer = document.getElementById("cardsContainer");
+  const allCards = Array.from(cardsContainer.children);
+
+  animateBubbleSort(allCards)
+    .then(bubbleLog => {
+      displayBubbleLog(bubbleLog);
+    })
+    .catch(error => {
+      console.error(
+        "Ocurrió un error durante la animación de bubble sort:",
+        error
+      );
+    });
 }
 
 function displayBubbleLog(bubbleLog) {
   const bubbleLogContainer = document.getElementById("bubbleLog");
   bubbleLogContainer.innerHTML = "";
 
-  bubbleLog.forEach(log => {
+  for (let i = 0; i < bubbleLog.length; i++) {
     const logItem = document.createElement("div");
-    logItem.textContent = log;
+    logItem.textContent = bubbleLog[i];
     bubbleLogContainer.appendChild(logItem);
-  });
-}
-
-function bubbleSortHandler() {
-  const cardsContainer = document.getElementById("cardsContainer");
-  const allCards = Array.from(cardsContainer.children);
-
-  animateBubbleSort(allCards);
+  }
 }
