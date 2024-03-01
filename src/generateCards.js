@@ -1,9 +1,17 @@
-const suitsSymbols = {
-  spade: "♠",
-  club: "♣",
-  heart: "♥",
-  diamond: "♦"
-};
+export function generateCards(numCards) {
+  const suitsSymbols = ["♠", "♣", "♥", "♦"];
+  const cards = [];
+
+  for (let i = 0; i < numCards; i++) {
+    const randomSuit =
+      suitsSymbols[Math.floor(Math.random() * suitsSymbols.length)];
+    const randomCardNumber = Math.floor(Math.random() * 13) + 2;
+    const cardElement = generateCard(randomSuit, randomCardNumber);
+    cards.push(cardElement);
+  }
+
+  return cards;
+}
 
 function generateCard(randomSuit, randomCardNumber) {
   const card = document.createElement("div");
@@ -37,19 +45,11 @@ function generateCard(randomSuit, randomCardNumber) {
   return card;
 }
 
-export function generateCards(numCards) {
-  const suitsSymbols = ["♠", "♣", "♥", "♦"];
-  const cards = [];
-
-  for (let i = 0; i < numCards; i++) {
-    const randomSuit =
-      suitsSymbols[Math.floor(Math.random() * suitsSymbols.length)];
-    const randomCardNumber = Math.floor(Math.random() * 13) + 2;
-    const cardElement = generateCard(randomSuit, randomCardNumber);
-    cards.push(cardElement);
-  }
-
-  return cards;
+export function generateCardRows(cards, cardsPerRow) {
+  const cardRows = [];
+  const row = generateCardRow(cards);
+  cardRows.push(row);
+  return cardRows;
 }
 
 function generateCardRow(cards) {
@@ -61,11 +61,4 @@ function generateCardRow(cards) {
   });
 
   return row;
-}
-
-export function generateCardRows(cards, cardsPerRow) {
-  const cardRows = [];
-  const row = generateCardRow(cards);
-  cardRows.push(row);
-  return cardRows;
 }
