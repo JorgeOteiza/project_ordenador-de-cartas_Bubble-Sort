@@ -1,5 +1,5 @@
 import { generateCards, generateCardRows } from "./generateCards.js";
-import { bubbleSortCards } from "./sortCards.js";
+import { bubbleSortCards, animateBubbleSort } from "./sortCards.js";
 
 document.addEventListener("DOMContentLoaded", function() {
   const drawButton = document.getElementById("draw");
@@ -26,9 +26,7 @@ function draw() {
     cardsContainer.appendChild(row);
   });
 
-  bubbleSortCards()
-    .then(displayBubbleLog)
-    .catch(error => console.error(error));
+  displayBubbleLog(bubbleSortCards());
 }
 
 function displayBubbleLog(bubbleLog) {
@@ -43,7 +41,8 @@ function displayBubbleLog(bubbleLog) {
 }
 
 function bubbleSortHandler() {
-  bubbleSortCards()
-    .then(displayBubbleLog)
-    .catch(error => console.error(error));
+  const cardsContainer = document.getElementById("cardsContainer");
+  const allCards = Array.from(cardsContainer.children);
+
+  animateBubbleSort(allCards);
 }

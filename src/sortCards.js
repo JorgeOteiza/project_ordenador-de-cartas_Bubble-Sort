@@ -11,7 +11,7 @@ export function bubbleSortCards() {
   return animateBubbleSort(allCards);
 }
 
-function animateBubbleSort(cards) {
+export function animateBubbleSort(cards) {
   return new Promise((resolve, reject) => {
     const bubbleLog = bubbleSort(cards);
     let i = 0;
