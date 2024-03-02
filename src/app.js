@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 import { generateCards, generateCardRows } from "./generateCards.js";
-import { bubbleSortCards, animateBubbleSort } from "./sortCards.js";
+import { bubbleSort } from "./bubbleSort.js";
 
 document.addEventListener("DOMContentLoaded", function() {
   const drawButton = document.getElementById("draw");
@@ -14,6 +14,9 @@ document.addEventListener("DOMContentLoaded", function() {
 let initialCardState = [];
 
 function draw() {
+  const bubbleLogContainer = document.getElementById("bubbleLog");
+  bubbleLogContainer.innerHTML = "";
+
   const numCardsInput = document.getElementById("numCards");
   const numCards = parseInt(numCardsInput.value);
   const cardsContainer = document.getElementById("cardsContainer");
@@ -32,33 +35,28 @@ function draw() {
   cardRows.forEach(row => {
     cardsContainer.appendChild(row);
   });
-
-  sortAndAnimate();
 }
 
 function sortAndAnimate() {
   const cardsContainer = document.getElementById("cardsContainer");
-  const allCards = Array.from(cardsContainer.children);
+  const allCards = Array.from(cardsContainer.children[0].children);
 
-  animateBubbleSort(allCards)
-    .then(bubbleLog => {
-      displayBubbleLog(bubbleLog);
-    })
-    .catch(error => {
-      console.error(
-        "Ocurrió un error durante la animación de bubble sort:",
-        error
-      );
-    });
+  const sortedCards = bubbleSort(allCards);
+  displayBubbleLog(sortedCards);
 }
 
 function displayBubbleLog(bubbleLog) {
   const bubbleLogContainer = document.getElementById("bubbleLog");
-  bubbleLogContainer.innerHTML = "";
 
   for (let i = 0; i < bubbleLog.length; i++) {
-    const logItem = document.createElement("div");
-    logItem.textContent = bubbleLog[i];
-    bubbleLogContainer.appendChild(logItem);
+    const currentLogElement = document.createElement("div");
+
+    currentLogElement.classList.add("cards-container");
+
+    const currentLog = Array.from(bubbleLog[i]);
+    for (let currentCard of currentLog) {
+      currentLogElement.appendChild(currentCard);
+    }
+    bubbleLogContainer.appendChild(currentLogElement);
   }
 }

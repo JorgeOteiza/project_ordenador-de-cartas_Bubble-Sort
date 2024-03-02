@@ -35,9 +35,7 @@ function generateCard(randomSuit, randomCardNumber) {
       : ["J", "Q", "K"][randomCardNumber - 11];
   centeredText.textContent = cardNumber;
 
-  if (randomSuit === "♠" && randomCardNumber === 1) {
-    centeredText.innerHTML += '<span class="spade-symbol">&spades;</span>';
-  } else if (randomSuit === "♥" || randomSuit === "♦") {
+  if (randomSuit === "♥" || randomSuit === "♦") {
     topSymbol.classList.add("heart");
     bottomSymbol.classList.add("heart");
   }
