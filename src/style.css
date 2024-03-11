@@ -4,7 +4,7 @@ body {
   align-items: center;
   min-height: 100vh;
   margin: 0;
-  background-color: rgb(3, 89, 3);
+  background-color: rgb(3 65 89);
 }
 
 .container {
@@ -17,7 +17,7 @@ body {
 button {
   padding: 9px;
   border-radius: 6px;
-  box-shadow: 0px 0px 12px greenyellow;
+  box-shadow: 0px 0px 12px rgb(172, 255, 47);
   background-color: black;
   color: white;
   margin: 9px;
@@ -65,7 +65,6 @@ h5 {
 
 .bubble-log {
   margin-top: 20px;
-  display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;

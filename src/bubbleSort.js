@@ -1,15 +1,18 @@
-const mapper = {
-  A: 1,
-  J: 11,
-  Q: 12,
-  K: 13
-};
-
-const mapCardsLetters = value => {
-  return parseInt(mapper[value] || value);
-};
-
 export function bubbleSort(arr) {
+  const mapper = {
+    A: 1,
+    J: 11,
+    Q: 12,
+    K: 13
+  };
+
+  const mapCardsLetters = value => {
+    const mappedValue = mapper[value];
+    return typeof mappedValue !== "undefined"
+      ? parseInt(mappedValue)
+      : parseInt(value);
+  };
+
   var i, j;
   var len = arr.length;
 
@@ -28,18 +31,19 @@ export function bubbleSort(arr) {
         arr[j + 1].querySelector(".centered-text").textContent
       );
 
-      log.push(arr);
       if (value1 > value2) {
         var temp = arr[j];
         arr[j] = arr[j + 1];
         arr[j + 1] = temp;
         isSwapped = true;
+
+        log.push([...arr]);
       }
     }
   }
 
   // Print the array
-  console.log(log);
+  // console.log(log);
 
   return log;
 }
