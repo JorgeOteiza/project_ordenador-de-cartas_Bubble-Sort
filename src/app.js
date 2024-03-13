@@ -70,8 +70,8 @@ function sortAndAnimate() {
         // Actualiza el texto de la carta
         card.querySelector(".centered-text").textContent =
           sortedCardTexts[index];
-      }, 100 * index); // Ajusta el tiempo de espera según sea necesario
-    }, 200 * index); // Ajusta el tiempo de espera según sea necesario
+      }, 200 * index); // Ajusta el tiempo de espera según sea necesario
+    }, 300 * index); // Ajusta el tiempo de espera según sea necesario
   });
 }
 

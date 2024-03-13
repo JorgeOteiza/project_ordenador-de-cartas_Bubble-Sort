@@ -59,8 +59,9 @@ button {
 }
 
 h5 {
-  font-size: large;
+  font-size: larger;
   margin: 15px;
+  color: goldenrod;
 }
 
 .bubble-log {
