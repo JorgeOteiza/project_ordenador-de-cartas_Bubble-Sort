@@ -1,69 +1,48 @@
-// Optimized JavaScript implementation of Bubble Sort with improvement
-export function bubbleSort(arr) {
-  var i, j, temp;
-  var n = arr.length;
-  var swapped;
+/* eslint-disable no-console */
 
-  // Bucle exterior
-  for (i = 0; i < n - 1; i++) {
+export function bubbleSort(cardTexts) {
+  let swapped;
+  do {
     swapped = false;
-
-    // Bucle interior
-    for (j = 0; j < n - i - 1; j++) {
-      // Comprobar si el elemento actual es mayor que el siguiente
-      if (arr[j] > arr[j + 1]) {
-        // Intercambiar si es necesario
-        temp = arr[j];
-        arr[j] = arr[j + 1];
-        arr[j + 1] = temp;
+    for (let i = 0; i < cardTexts.length - 1; i += 2) {
+      // Compare pairs of cards
+      if (compareCards(cardTexts[i], cardTexts[i + 1]) > 0) {
+        // Swap elements if the left card is greater
+        const temp = cardTexts[i];
+        cardTexts[i] = cardTexts[i + 1];
+        cardTexts[i + 1] = temp;
         swapped = true;
       }
     }
-
-    // Si no hubo intercambios, la matriz está ordenada
-    if (!swapped) break;
-  }
-
-  return arr; // Devuelve la matriz ordenada
+  } while (swapped);
+  return cardTexts;
 }
 
-// Función para imprimir la matriz
-export function printArray(arr) {
-  var i;
-  for (i = 0; i < arr.length; i++) console.log(arr[i] + " ");
+function compareCards(cardText1, cardText2) {
+  // Implement your logic to compare cards (e.g., by rank and suit)
+  // This example prioritizes rank (higher number is greater)
+  // and then suit (hearts and diamonds are greater)
+  const value1 = getValueFromCardText(cardText1);
+  const value2 = getValueFromCardText(cardText2);
+  const suit1 = getSuitFromCardText(cardText1);
+  const suit2 = getSuitFromCardText(cardText2);
+
+  if (value1 !== value2) {
+    return value2 - value1; // Higher value comes first
+  } else {
+    // If values are equal, compare suits (hearts/diamonds are greater)
+    return suit2 === "♥" || suit2 === "♦" ? 1 : -1;
+  }
 }
 
-// Exporta la función de ordenación
-export { displayBubbleLog };
+function getValueFromCardText(cardText) {
+  // Implement logic to extract value from card text (e.g., A=1, J=11)
+  if (cardText === "A") return 1;
+  else if (cardText.match(/[JQK]/)) return 10;
+  else return parseInt(cardText);
+}
 
-function displayBubbleLog(bubbleLog) {
-  console.log("Bubble Log:", bubbleLog);
-  const bubbleLogContainer = document.getElementById("bubbleLog");
-
-  // Verificar si bubbleLog está definido y no es un array vacío
-  if (!Array.isArray(bubbleLog) || bubbleLog.length === 0) {
-    console.error("Invalid bubbleLog provided.");
-    return;
-  }
-
-  for (let i = 0; i < bubbleLog.length; i++) {
-    const currentLogElement = document.createElement("div");
-    currentLogElement.classList.add("cards-container");
-
-    // Verificar si el elemento actual en bubbleLog es un array
-    if (Array.isArray(bubbleLog[i])) {
-      const currentLog = Array.from(bubbleLog[i]);
-      currentLog.forEach(currentCard => {
-        if (currentCard instanceof Node) {
-          currentLogElement.appendChild(currentCard);
-        } else {
-          console.error("Invalid entry in bubbleLog array.");
-        }
-      });
-    } else {
-      console.error("Invalid entry in bubbleLog array.");
-    }
-
-    bubbleLogContainer.appendChild(currentLogElement);
-  }
+function getSuitFromCardText(cardText) {
+  // Implement logic to extract suit from card text (e.g., "♠" for spades)
+  return cardText.split("")[0];
 }

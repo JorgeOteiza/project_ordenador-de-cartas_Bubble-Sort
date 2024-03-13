@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-import { generateCards, generateCardRows } from "./generateCards.js";
+import { generateCards } from "./generateCards.js";
 import { bubbleSort } from "./bubbleSort.js";
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -19,6 +19,15 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 let initialCardState = [];
+
+function generateCardRow(cards) {
+  const row = document.createElement("div");
+  row.className = "card-row";
+  cards.forEach(card => {
+    row.appendChild(card);
+  });
+  return row;
+}
 
 function draw() {
   const bubbleLogContainer = document.getElementById("bubbleLog");
@@ -41,29 +50,28 @@ function draw() {
 
 function sortAndAnimate() {
   const cardsContainer = document.getElementById("cardsContainer");
+  const allCards = Array.from(cardsContainer.querySelectorAll(".card"));
 
-  // Obtiene las cartas generadas al azar
-  const allCards = Array.from(cardsContainer.children[0].children);
+  // Obtiene el texto de cada carta para ordenar
+  const cardTexts = allCards.map(
+    card => card.querySelector(".centered-text").textContent
+  );
 
-  // Copia profunda de las cartas generadas al azar
-  const randomCards = allCards.map(card => card.cloneNode(true));
+  // Ordena las cartas
+  const sortedCardTexts = bubbleSort(cardTexts);
 
-  // Ordena y muestra el proceso de animación con las cartas generadas al azar
-  const sortedRandomCards = bubbleSort(randomCards);
-  displayBubbleLog([sortedRandomCards.map(card => card.cloneNode(true))]);
-
-  // No es necesario ordenar las cartas nuevamente, ya que ya lo hicimos con sortedRandomCards
-  // Solo mostramos el resultado final
-  displayBubbleLog([sortedRandomCards.map(card => card.cloneNode(true))]);
-}
-
-function displayCards(cards) {
-  const cardsContainer = document.getElementById("cardsContainer");
-  cardsContainer.innerHTML = "";
-
-  const cardRows = generateCardRows(cards, 6);
-  cardRows.forEach(row => {
-    cardsContainer.appendChild(row);
+  // Animación de transición
+  allCards.forEach((card, index) => {
+    setTimeout(() => {
+      // Agrega una clase de transición CSS
+      card.classList.add("transition");
+      // Espera un breve momento antes de actualizar el contenido
+      setTimeout(() => {
+        // Actualiza el texto de la carta
+        card.querySelector(".centered-text").textContent =
+          sortedCardTexts[index];
+      }, 100 * index); // Ajusta el tiempo de espera según sea necesario
+    }, 200 * index); // Ajusta el tiempo de espera según sea necesario
   });
 }
 
@@ -83,7 +91,7 @@ function displayBubbleLog(bubbleLog) {
     if (Array.isArray(bubbleLog[i])) {
       const currentLog = Array.from(bubbleLog[i]);
       currentLog.forEach(currentCard => {
-        if (currentCard instanceof Node) {
+        if (currentCard instanceof HTMLElement) {
           currentLogElement.appendChild(currentCard);
         } else {
           console.error("Invalid entry in currentLog array.");
@@ -94,5 +102,21 @@ function displayBubbleLog(bubbleLog) {
     }
 
     bubbleLogContainer.appendChild(currentLogElement);
+  }
+}
+
+function displayCards(cards) {
+  const cardsContainer = document.getElementById("cardsContainer");
+  cardsContainer.innerHTML = "";
+
+  const numColumns = Math.ceil(cards.length / 6); // Calcular el número de columnas basado en la cantidad de cartas
+  const cardsPerRow = Math.ceil(cards.length / numColumns); // Calcular la cantidad de cartas por fila
+
+  for (let i = 0; i < numColumns; i++) {
+    const startIdx = i * cardsPerRow;
+    const endIdx = Math.min(startIdx + cardsPerRow, cards.length);
+    const columnCards = cards.slice(startIdx, endIdx);
+    const cardRow = generateCardRow(columnCards);
+    cardsContainer.appendChild(cardRow);
   }
 }
