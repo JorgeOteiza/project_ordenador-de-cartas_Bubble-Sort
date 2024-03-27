@@ -23,8 +23,11 @@ let initialCardState = [];
 function generateCardRow(cards) {
   const row = document.createElement("div");
   row.className = "card-row";
-  cards.forEach(card => {
-    row.appendChild(card);
+  cards.forEach(cardText => {
+    const cardElement = document.createElement("div"); // Crear un nuevo elemento div para cada carta
+    const cardNode = document.createTextNode(cardText); // Crear un nuevo nodo de texto con el texto de la carta
+    cardElement.appendChild(cardNode); // Agregar el nodo de texto como hijo del elemento div
+    row.appendChild(cardElement); // Agregar el elemento div de la carta como hijo de la fila
   });
   return row;
 }
@@ -58,58 +61,38 @@ function sortAndAnimate() {
   );
 
   // Ordena las cartas
-  const sortedCardTexts = bubbleSort(cardTexts);
+  const bubbleLog = [];
+  bubbleSort(cardTexts, bubbleLog);
 
-  // Animación de transición
-  allCards.forEach((card, index) => {
-    setTimeout(() => {
-      // Agrega una clase de transición CSS
-      card.classList.add("transition");
-      // Espera un breve momento antes de actualizar el contenido
-      setTimeout(() => {
-        // Actualiza el texto de la carta
-        card.querySelector(".centered-text").textContent =
-          sortedCardTexts[index];
-      }, 200 * index); // Ajusta el tiempo de espera según sea necesario
-    }, 300 * index); // Ajusta el tiempo de espera según sea necesario
-  });
+  console.log(bubbleLog);
+  // Muestra el registro de bubble sort
+  displayBubbleLog(bubbleLog);
 }
 
 function displayBubbleLog(bubbleLog) {
   const bubbleLogContainer = document.getElementById("bubbleLog");
 
-  // Verificar si bubbleLog está definido y no es un array vacío
+  // Limpia el contenedor de registro
+  bubbleLogContainer.innerHTML = "";
+
+  // Verifica si bubbleLog es válido y no está vacío
   if (!Array.isArray(bubbleLog) || bubbleLog.length === 0) {
     console.error("Invalid bubbleLog provided.");
     return;
   }
 
-  for (let i = 0; i < bubbleLog.length; i++) {
-    const currentLogElement = document.createElement("div");
-    currentLogElement.classList.add("cards-container");
-
-    if (Array.isArray(bubbleLog[i])) {
-      const currentLog = Array.from(bubbleLog[i]);
-      currentLog.forEach(currentCard => {
-        if (currentCard instanceof HTMLElement) {
-          currentLogElement.appendChild(currentCard);
-        } else {
-          console.error("Invalid entry in currentLog array.");
-        }
-      });
-    } else {
-      console.error("Invalid entry in bubbleLog array.");
-    }
-
-    bubbleLogContainer.appendChild(currentLogElement);
-  }
+  // Recorre cada paso del registro y muestra las filas de cartas
+  bubbleLog.forEach(step => {
+    const row = generateCardRow(step);
+    bubbleLogContainer.appendChild(row);
+  });
 }
 
 function displayCards(cards) {
   const cardsContainer = document.getElementById("cardsContainer");
   cardsContainer.innerHTML = "";
 
-  const numColumns = Math.ceil(cards.length / 6); // Calcular el número de columnas basado en la cantidad de cartas
+  const numColumns = Math.ceil(cards.length / 6); // Calcula el número de columnas de acuerdo a la cantidad de cartas
   const cardsPerRow = Math.ceil(cards.length / numColumns); // Calcular la cantidad de cartas por fila
 
   for (let i = 0; i < numColumns; i++) {
@@ -117,6 +100,18 @@ function displayCards(cards) {
     const endIdx = Math.min(startIdx + cardsPerRow, cards.length);
     const columnCards = cards.slice(startIdx, endIdx);
     const cardRow = generateCardRow(columnCards);
+
+    // Modifica la generación de las cartas en la fila
+    const cardElements = columnCards.map(card => {
+      const cardElement = document.createElement("div");
+      cardElement.textContent = card.textContent;
+      return cardElement;
+    });
+
+    cardElements.forEach(cardElement => {
+      cardRow.appendChild(cardElement); // Agrega el nuevo elemento div de la carta a la fila
+    });
+
     cardsContainer.appendChild(cardRow);
   }
 }

@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-export function bubbleSort(cardTexts) {
+export function bubbleSort(cardTexts, bubbleLog) {
   let swapped;
   do {
     swapped = false;
@@ -12,6 +12,9 @@ export function bubbleSort(cardTexts) {
         cardTexts[i] = cardTexts[i + 1];
         cardTexts[i + 1] = temp;
         swapped = true;
+        // Agregamos un console.log para verificar el bubbleLog en cada iteración
+        console.log("bubbleLog:", bubbleLog);
+        bubbleLog.push([...cardTexts]); // Agregar una copia del arreglo ordenado al bubbleLog
       }
     }
   } while (swapped);
