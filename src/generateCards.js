@@ -1,7 +1,5 @@
 /* eslint-disable no-console */
 
-import { bubbleSort } from "./bubbleSort.js";
-
 // Función para generar cartas aleatorias
 export function generateCards(numCards) {
   const suitsSymbols = ["♠", "♣", "♥", "♦"];
@@ -63,24 +61,45 @@ export function generateCardRows(cards, cardsPerRow) {
   return cardRows;
 }
 
-// Función para generar una fila de cartas
+// Función para generar una fila de cartas con las cartas clonadas
 function generateCardRow(cards) {
   const row = document.createElement("div");
   row.className = "card-row";
   cards.forEach(card => {
+    console.log("Tipo de card:", typeof card);
+    console.log("Contenido de card:", card);
+
     const clonedCard = card.cloneNode(true); // Clonar la carta existente
     row.appendChild(clonedCard); // Agregar la carta clonada al contenedor de fila
   });
   return row;
 }
 
-// Función para aplicar estilos a las cartas ordenadas
-function applyOrderedCardStyles() {
-  const orderedCards = document.querySelectorAll(".card");
-  orderedCards.forEach((card, index) => {
-    // Aplicar estilos específicos según el índice de la carta ordenada
-    card.style.order = index + 1;
-    card.style.backgroundColor = "lightblue"; // Ejemplo de estilo
-    // Puedes agregar más estilos aquí según sea necesario
+// Función para generar cartas ordenadas
+export function generateOrderedCards(allCards, bubbleLog) {
+  // Creamos una copia de las cartas originales para no modificar el estado inicial
+  const orderedCards = allCards.slice();
+
+  // Recorremos el registro de burbujas para aplicar los intercambios de cartas
+  bubbleLog.forEach(step => {
+    step.forEach((cardIndex, index) => {
+      // Obtenemos las cartas correspondientes a los índices
+      const currentCard = orderedCards[cardIndex];
+      const nextCard = orderedCards[index + 1];
+
+      // Intercambiamos las cartas si es necesario para ordenarlas
+      if (
+        currentCard &&
+        nextCard &&
+        currentCard.textContent > nextCard.textContent
+      ) {
+        // Insertamos la carta actual en la posición correcta
+        orderedCards.splice(index + 1, 1, currentCard);
+        // Insertamos la siguiente carta en la posición anterior
+        orderedCards.splice(cardIndex, 1, nextCard);
+      }
+    });
   });
+
+  return orderedCards;
 }

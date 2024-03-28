@@ -3,6 +3,7 @@
 import { generateCards } from "./generateCards.js";
 import { bubbleSort } from "./bubbleSort.js";
 import { generateCardRows } from "./generateCards.js";
+import { generateOrderedCards } from "./generateCards.js";
 
 document.addEventListener("DOMContentLoaded", function() {
   // Verifica la compatibilidad de navegadores
@@ -66,6 +67,10 @@ function sortAndAnimate() {
   // Muestra el registro de bubble sort
   displayBubbleLog(bubbleLog);
 
+  // Genera y muestra las cartas ordenadas
+  const orderedCards = generateOrderedCards(allCards, bubbleLog);
+  displayCards(orderedCards, cardsContainer);
+
   // Aplica estilos a las cartas ordenadas
   applyOrderedCardStyles();
 }
@@ -94,16 +99,25 @@ function displayBubbleLog(bubbleLog) {
 
   // Recorre cada paso del registro y muestra las filas de cartas
   bubbleLog.forEach(step => {
-    const cardRows = generateCardRows(step, numCardsPerRow);
-    cardRows.forEach(row => {
-      bubbleLogContainer.appendChild(row);
+    if (
+      Array.isArray(step) &&
+      step.every(card => card instanceof HTMLElement)
+    ) {
+      const cardRows = generateCardRows(step, numCardsPerRow);
+      cardRows.forEach(row => {
+        const clonedRow = row.cloneNode(true);
+        bubbleLogContainer.appendChild(clonedRow);
 
-      // Aplicar los mismos estilos a las cartas ordenadas
-      const allCards = Array.from(row.querySelectorAll(".card"));
-      allCards.forEach(card => {
-        // Agregar estilos adicionales aquí si es necesario
+        // Aplicar los mismos estilos a las cartas ordenadas
+        const allCards = Array.from(clonedRow.querySelectorAll(".card"));
+        allCards.forEach(card => {
+          // Agregar estilos adicionales aquí si es necesario
+          card.classList.add("ordered-card");
+        });
       });
-    });
+    } else {
+      console.error("Step is not an array of HTMLElements:", step);
+    }
   });
 }
 
