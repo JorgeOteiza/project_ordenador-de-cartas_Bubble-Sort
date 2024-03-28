@@ -67,11 +67,20 @@ export function generateCardRows(cards, cardsPerRow) {
 function generateCardRow(cards) {
   const row = document.createElement("div");
   row.className = "card-row";
-  cards.forEach(cardText => {
-    const cardElement = document.createElement("div"); // Crear un nuevo elemento div para cada carta
-    cardElement.className = "card"; // Asignar la clase "card" para aplicar estilos de tarjeta
-    cardElement.innerHTML = cardText; // Asignar el texto de la carta al contenido del elemento div
-    row.appendChild(cardElement); // Agregar el elemento div de la carta como hijo de la fila
+  cards.forEach(card => {
+    const clonedCard = card.cloneNode(true); // Clonar la carta existente
+    row.appendChild(clonedCard); // Agregar la carta clonada al contenedor de fila
   });
   return row;
+}
+
+// Función para aplicar estilos a las cartas ordenadas
+function applyOrderedCardStyles() {
+  const orderedCards = document.querySelectorAll(".card");
+  orderedCards.forEach((card, index) => {
+    // Aplicar estilos específicos según el índice de la carta ordenada
+    card.style.order = index + 1;
+    card.style.backgroundColor = "lightblue"; // Ejemplo de estilo
+    // Puedes agregar más estilos aquí según sea necesario
+  });
 }
