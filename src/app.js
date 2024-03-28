@@ -2,6 +2,7 @@
 
 import { generateCards } from "./generateCards.js";
 import { bubbleSort } from "./bubbleSort.js";
+import { generateCardRows } from "./generateCards.js";
 
 document.addEventListener("DOMContentLoaded", function() {
   // Verifica la compatibilidad de navegadores
@@ -23,11 +24,8 @@ let initialCardState = [];
 function generateCardRow(cards) {
   const row = document.createElement("div");
   row.className = "card-row";
-  cards.forEach(cardText => {
-    const cardElement = document.createElement("div"); // Crear un nuevo elemento div para cada carta
-    const cardNode = document.createTextNode(cardText); // Crear un nuevo nodo de texto con el texto de la carta
-    cardElement.appendChild(cardNode); // Agregar el nodo de texto como hijo del elemento div
-    row.appendChild(cardElement); // Agregar el elemento div de la carta como hijo de la fila
+  cards.forEach(card => {
+    row.appendChild(card);
   });
   return row;
 }
@@ -67,6 +65,16 @@ function sortAndAnimate() {
   console.log(bubbleLog);
   // Muestra el registro de bubble sort
   displayBubbleLog(bubbleLog);
+
+  // Aplica estilos a las cartas ordenadas
+  applyOrderedCardStyles();
+}
+
+function applyOrderedCardStyles() {
+  const orderedCards = document.querySelectorAll(".card");
+  orderedCards.forEach(card => {
+    card.classList.add("ordered-card");
+  });
 }
 
 function displayBubbleLog(bubbleLog) {
@@ -81,37 +89,37 @@ function displayBubbleLog(bubbleLog) {
     return;
   }
 
+  // Definir el número de cartas por fila
+  const numCardsPerRow = calculateCardsPerRow(bubbleLog);
+
   // Recorre cada paso del registro y muestra las filas de cartas
   bubbleLog.forEach(step => {
-    const row = generateCardRow(step);
-    bubbleLogContainer.appendChild(row);
+    const cardRows = generateCardRows(step, numCardsPerRow);
+    cardRows.forEach(row => {
+      bubbleLogContainer.appendChild(row);
+
+      // Aplicar los mismos estilos a las cartas ordenadas
+      const allCards = Array.from(row.querySelectorAll(".card"));
+      allCards.forEach(card => {
+        // Agregar estilos adicionales aquí si es necesario
+      });
+    });
   });
+}
+
+// Calcular el número de cartas por fila
+function calculateCardsPerRow(bubbleLog) {
+  const totalCards = bubbleLog[0].length; // Obtener la cantidad total de cartas en el primer paso
+  const numCards = totalCards / bubbleLog.length; // Calcular la cantidad promedio de cartas por paso
+  return Math.ceil(numCards); // Redondear hacia arriba para garantizar al menos 1 carta por fila
 }
 
 function displayCards(cards) {
   const cardsContainer = document.getElementById("cardsContainer");
-  cardsContainer.innerHTML = "";
+  cardsContainer.innerHTML = ""; //Limpia el contenedor antes de agregar las cartas
 
-  const numColumns = Math.ceil(cards.length / 6); // Calcula el número de columnas de acuerdo a la cantidad de cartas
-  const cardsPerRow = Math.ceil(cards.length / numColumns); // Calcular la cantidad de cartas por fila
-
-  for (let i = 0; i < numColumns; i++) {
-    const startIdx = i * cardsPerRow;
-    const endIdx = Math.min(startIdx + cardsPerRow, cards.length);
-    const columnCards = cards.slice(startIdx, endIdx);
-    const cardRow = generateCardRow(columnCards);
-
-    // Modifica la generación de las cartas en la fila
-    const cardElements = columnCards.map(card => {
-      const cardElement = document.createElement("div");
-      cardElement.textContent = card.textContent;
-      return cardElement;
-    });
-
-    cardElements.forEach(cardElement => {
-      cardRow.appendChild(cardElement); // Agrega el nuevo elemento div de la carta a la fila
-    });
-
-    cardsContainer.appendChild(cardRow);
-  }
+  // Itera sobre todas las cartas y las agrega al contenedor
+  cards.forEach(card => {
+    cardsContainer.appendChild(card);
+  });
 }

@@ -1,3 +1,8 @@
+/* eslint-disable no-console */
+
+import { bubbleSort } from "./bubbleSort.js";
+
+// Función para generar cartas aleatorias
 export function generateCards(numCards) {
   const suitsSymbols = ["♠", "♣", "♥", "♦"];
   const cards = [];
@@ -13,6 +18,7 @@ export function generateCards(numCards) {
   return cards;
 }
 
+// Función para generar una carta con un palo y número aleatorio
 function generateCard(randomSuit, randomCardNumber) {
   const card = document.createElement("div");
   card.className = "card";
@@ -47,6 +53,7 @@ function generateCard(randomSuit, randomCardNumber) {
   return card;
 }
 
+// Función para generar filas de cartas
 export function generateCardRows(cards, cardsPerRow) {
   const cardRows = [];
   for (let i = 0; i < cards.length; i += cardsPerRow) {
@@ -56,11 +63,15 @@ export function generateCardRows(cards, cardsPerRow) {
   return cardRows;
 }
 
+// Función para generar una fila de cartas
 function generateCardRow(cards) {
   const row = document.createElement("div");
   row.className = "card-row";
-  cards.forEach(card => {
-    row.appendChild(card);
+  cards.forEach(cardText => {
+    const cardElement = document.createElement("div"); // Crear un nuevo elemento div para cada carta
+    cardElement.className = "card"; // Asignar la clase "card" para aplicar estilos de tarjeta
+    cardElement.innerHTML = cardText; // Asignar el texto de la carta al contenido del elemento div
+    row.appendChild(cardElement); // Agregar el elemento div de la carta como hijo de la fila
   });
   return row;
 }

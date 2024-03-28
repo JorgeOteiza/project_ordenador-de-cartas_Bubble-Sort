@@ -1,0 +1,29 @@
+/* ordered-cards.css */
+
+.ordered-card {
+    width: 100px; /* Ancho de la carta */
+    height: 150px; /* Alto de la carta */
+    border: 1px solid black; /* Borde negro */
+    border-radius: 10px; /* Bordes redondeados */
+    background-color: white; /* Fondo blanco */
+    padding: 10px; /* Espaciado interno */
+    display: inline-block; /* Mostrar en línea */
+    margin: 5px; /* Margen entre cartas */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Sombra */
+  }
+  
+  .ordered-card .corner-symbol {
+    font-size: 20px; /* Tamaño del símbolo de la esquina */
+    position: absolute; /* Posición absoluta */
+    top: 5px; /* Espaciado desde la parte superior */
+    left: 5px; /* Espaciado desde la izquierda */
+  }
+  
+  .ordered-card .centered-text {
+    font-size: 30px; /* Tamaño del texto central */
+    position: absolute; /* Posición absoluta */
+    top: 50%; /* Alineación vertical en el centro */
+    left: 50%; /* Alineación horizontal en el centro */
+    transform: translate(-50%, -50%); /* Centrar el texto */
+  }
+  
