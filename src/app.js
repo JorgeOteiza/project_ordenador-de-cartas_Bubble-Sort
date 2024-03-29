@@ -2,8 +2,7 @@
 
 import { generateCards } from "./generateCards.js";
 import { bubbleSort } from "./bubbleSort.js";
-import { generateCardRows } from "./generateCards.js";
-import { generateOrderedCards } from "./generateCards.js";
+import { generateCardRows, generateOrderedCards } from "./generateCards.js";
 
 document.addEventListener("DOMContentLoaded", function() {
   // Verifica la compatibilidad de navegadores
@@ -22,15 +21,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 let initialCardState = [];
 
-function generateCardRow(cards) {
-  const row = document.createElement("div");
-  row.className = "card-row";
-  cards.forEach(card => {
-    row.appendChild(card);
-  });
-  return row;
-}
-
 function draw() {
   const bubbleLogContainer = document.getElementById("bubbleLog");
   bubbleLogContainer.innerHTML = "";
@@ -45,9 +35,11 @@ function draw() {
   }
 
   // Genera y muestra las cartas
-  const cards = generateCards(numCards);
+  const cards = generateCards(numCards); // genera las cartas
   initialCardState = cards.slice();
-  displayCards(cards);
+  const numCardsPerRow = calculateCardsPerRow(cards.length, 1); // calcula el número de cartas por fila
+  const cardRows = generateCardRows(cards, numCardsPerRow); // genera las filas de cartas
+  displayCards(cardRows); // muestra las filas de cartas en el contenedor
 }
 
 function sortAndAnimate() {
@@ -63,30 +55,17 @@ function sortAndAnimate() {
   const bubbleLog = [];
   bubbleSort(cardTexts, bubbleLog);
 
-  console.log(bubbleLog);
   // Muestra el registro de bubble sort
-  displayBubbleLog(bubbleLog);
+  displayBubbleLog(bubbleLog, allCards.length);
 
   // Genera y muestra las cartas ordenadas
   const orderedCards = generateOrderedCards(allCards, bubbleLog);
-  displayCards(orderedCards, cardsContainer);
-
-  // Aplica estilos a las cartas ordenadas
-  applyOrderedCardStyles();
+  displayCards(orderedCards);
 }
 
-function applyOrderedCardStyles() {
-  const orderedCards = document.querySelectorAll(".card");
-  orderedCards.forEach(card => {
-    card.classList.add("ordered-card");
-  });
-}
-
-function displayBubbleLog(bubbleLog) {
+function displayBubbleLog(bubbleLog, totalCards) {
   const bubbleLogContainer = document.getElementById("bubbleLog");
-
-  // Limpia el contenedor de registro
-  bubbleLogContainer.innerHTML = "";
+  bubbleLogContainer.innerHTML = ""; // Limpia el contenedor de registro
 
   // Verifica si bubbleLog es válido y no está vacío
   if (!Array.isArray(bubbleLog) || bubbleLog.length === 0) {
@@ -95,45 +74,29 @@ function displayBubbleLog(bubbleLog) {
   }
 
   // Definir el número de cartas por fila
-  const numCardsPerRow = calculateCardsPerRow(bubbleLog);
+  const numCardsPerRow = calculateCardsPerRow(totalCards, bubbleLog.length);
 
   // Recorre cada paso del registro y muestra las filas de cartas
   bubbleLog.forEach(step => {
-    if (
-      Array.isArray(step) &&
-      step.every(card => card instanceof HTMLElement)
-    ) {
-      const cardRows = generateCardRows(step, numCardsPerRow);
-      cardRows.forEach(row => {
-        const clonedRow = row.cloneNode(true);
-        bubbleLogContainer.appendChild(clonedRow);
-
-        // Aplicar los mismos estilos a las cartas ordenadas
-        const allCards = Array.from(clonedRow.querySelectorAll(".card"));
-        allCards.forEach(card => {
-          // Agregar estilos adicionales aquí si es necesario
-          card.classList.add("ordered-card");
-        });
-      });
-    } else {
-      console.error("Step is not an array of HTMLElements:", step);
-    }
+    const cardRows = generateCardRows(step, numCardsPerRow);
+    cardRows.forEach(row => {
+      bubbleLogContainer.appendChild(row);
+    });
   });
 }
 
 // Calcular el número de cartas por fila
-function calculateCardsPerRow(bubbleLog) {
-  const totalCards = bubbleLog[0].length; // Obtener la cantidad total de cartas en el primer paso
-  const numCards = totalCards / bubbleLog.length; // Calcular la cantidad promedio de cartas por paso
+function calculateCardsPerRow(totalCards, numSteps) {
+  const numCards = totalCards / numSteps; // Calcular la cantidad promedio de cartas por paso
   return Math.ceil(numCards); // Redondear hacia arriba para garantizar al menos 1 carta por fila
 }
 
-function displayCards(cards) {
+function displayCards(cardRows) {
   const cardsContainer = document.getElementById("cardsContainer");
-  cardsContainer.innerHTML = ""; //Limpia el contenedor antes de agregar las cartas
+  cardsContainer.innerHTML = ""; // Limpia el contenedor antes de agregar las cartas
 
-  // Itera sobre todas las cartas y las agrega al contenedor
-  cards.forEach(card => {
-    cardsContainer.appendChild(card);
+  // Agrega las filas de cartas al contenedor de cartas
+  cardRows.forEach(row => {
+    cardsContainer.appendChild(row);
   });
 }

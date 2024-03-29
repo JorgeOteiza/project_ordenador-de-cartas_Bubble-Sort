@@ -66,11 +66,7 @@ function generateCardRow(cards) {
   const row = document.createElement("div");
   row.className = "card-row";
   cards.forEach(card => {
-    console.log("Tipo de card:", typeof card);
-    console.log("Contenido de card:", card);
-
-    const clonedCard = card.cloneNode(true); // Clonar la carta existente
-    row.appendChild(clonedCard); // Agregar la carta clonada al contenedor de fila
+    row.appendChild(card);
   });
   return row;
 }
