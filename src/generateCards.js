@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 // Función para generar cartas aleatorias
 export function generateCards(numCards) {
   const suitsSymbols = ["♠", "♣", "♥", "♦"];
@@ -48,7 +46,8 @@ function generateCard(randomSuit, randomCardNumber) {
   card.appendChild(centeredText);
   card.appendChild(bottomSymbol);
 
-  return card;
+  // console.log("Card generated:", card);
+  return card; // Devuelve el nodo de la carta
 }
 
 // Función para generar filas de cartas
@@ -61,7 +60,7 @@ export function generateCardRows(cards, cardsPerRow) {
   return cardRows;
 }
 
-// Función para generar una fila de cartas con las cartas clonadas
+// Función para generar una fila de cartas con las cartas
 function generateCardRow(cards) {
   const row = document.createElement("div");
   row.className = "card-row";
@@ -89,10 +88,9 @@ export function generateOrderedCards(allCards, bubbleLog) {
         nextCard &&
         currentCard.textContent > nextCard.textContent
       ) {
-        // Insertamos la carta actual en la posición correcta
-        orderedCards.splice(index + 1, 1, currentCard);
-        // Insertamos la siguiente carta en la posición anterior
-        orderedCards.splice(cardIndex, 1, nextCard);
+        // Inserta la carta actual en la posición correcta
+        orderedCards.splice(index + 1, 0, currentCard);
+        orderedCards.splice(cardIndex, 1);
       }
     });
   });
