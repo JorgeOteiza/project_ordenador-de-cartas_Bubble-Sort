@@ -20,42 +20,42 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "public"),
     filename: "main.bundle.js",
-    sourceMapFilename: "[name].js.map",
+    sourceMapFilename: "[name].js.map"
   },
   devtool: "source-map",
   devServer: {
     historyApiFallback: true,
     public: publicUrl,
-    stats: "errors-warnings",
+    stats: "errors-warnings"
   },
   module: {
     rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: ["babel-loader", "eslint-loader"],
+        use: ["babel-loader", "eslint-loader"]
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        use: ["style-loader", "css-loader"]
       },
       {
         test: /\.(png|svg|jpg|gif|ico)$/,
         use: {
           loader: "file-loader",
-          options: { name: "[name].[ext]" },
-        },
+          options: { name: "[name].[ext]" }
+        }
       },
       {
         test: /\.html$/i,
         use: {
           loader: "html-loader",
           options: {
-            attributes: false,
-          },
-        },
-      },
-    ],
+            attributes: false
+          }
+        }
+      }
+    ]
   },
   plugins: [
     new WebpackErrorReporting({
@@ -64,7 +64,7 @@ module.exports = {
       token: process.env.BC_ASSETS_TOKEN,
       compiler: "webpack",
       language: "html,css,javascript",
-      framework: "vanillajs",
+      framework: "vanillajs"
     }),
     new FriendlyErrorsWebpackPlugin({
       // additionalFormatters: [cleanStack]
@@ -73,10 +73,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: "index.html",
       template: "src/index.html",
-      inject: "body",
+      inject: "body"
     }),
     new PrettierPlugin({
-      failSilently: true,
-    }),
-  ],
+      failSilently: true
+    })
+  ]
 };

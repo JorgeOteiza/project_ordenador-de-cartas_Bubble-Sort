@@ -11,7 +11,7 @@ app.use(
       } else if (path.endsWith(".css")) {
         res.setHeader("Content-Type", "text/css");
       }
-    },
+    }
   })
 );
 

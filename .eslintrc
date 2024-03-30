@@ -1,7 +1,8 @@
 {
   "parser": "babel-eslint",
   "env": {
-    "browser": true
+    "browser": true,
+    "node": true // Agrega esta línea para habilitar las variables globales de Node.js
   },
   "rules": {
     "strict": 0,

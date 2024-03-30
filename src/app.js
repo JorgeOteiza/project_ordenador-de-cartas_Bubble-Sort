@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
 let initialCardState = [];
 
 function draw() {
+  console.log("Antes de llamar a draw()");
   const bubbleLogContainer = document.getElementById("bubbleLog");
   bubbleLogContainer.innerHTML = "";
 
@@ -40,9 +41,11 @@ function draw() {
   const numCardsPerRow = calculateCardsPerRow(cards.length, 1); // calcula el número de cartas por fila
   const cardRows = generateCardRows(cards, numCardsPerRow); // genera las filas de cartas
   displayCards(cardRows); // muestra las filas de cartas en el contenedor
+  console.log("Después de llamar a draw()");
 }
 
 function sortAndAnimate() {
+  console.log("Antes de llamar a sortAndAnimate()");
   const cardsContainer = document.getElementById("cardsContainer");
   const allCards = Array.from(cardsContainer.querySelectorAll(".card"));
 
@@ -57,10 +60,7 @@ function sortAndAnimate() {
 
   // Muestra el registro de bubble sort
   displayBubbleLog(bubbleLog, allCards.length);
-
-  // Genera y muestra las cartas ordenadas
-  const orderedCards = generateOrderedCards(allCards, bubbleLog);
-  displayCards(orderedCards);
+  console.log("Después de llamar a sortAndAnimate()");
 }
 
 function displayBubbleLog(bubbleLog, totalCards) {
@@ -77,11 +77,15 @@ function displayBubbleLog(bubbleLog, totalCards) {
   const numCardsPerRow = calculateCardsPerRow(totalCards, bubbleLog.length);
 
   // Recorre cada paso del registro y muestra las filas de cartas
-  bubbleLog.forEach(step => {
+  bubbleLog.forEach((step, index) => {
     const cardRows = generateCardRows(step, numCardsPerRow);
     cardRows.forEach(row => {
       bubbleLogContainer.appendChild(row);
     });
+    // Agregar un espacio entre cada fila generada
+    if (index < bubbleLog.length - 1) {
+      bubbleLogContainer.appendChild(document.createElement("br"));
+    }
   });
 }
 
@@ -93,10 +97,34 @@ function calculateCardsPerRow(totalCards, numSteps) {
 
 function displayCards(cardRows) {
   const cardsContainer = document.getElementById("cardsContainer");
-  cardsContainer.innerHTML = ""; // Limpia el contenedor antes de agregar las cartas
+  if (!cardsContainer) {
+    console.error("No se encontró el contenedor de cartas en el DOM.");
+    return;
+  }
+
+  // Limpia el contenedor antes de agregar las cartas
+  cardsContainer.innerHTML = "";
 
   // Agrega las filas de cartas al contenedor de cartas
   cardRows.forEach(row => {
-    cardsContainer.appendChild(row);
+    // Verifica si row es un array antes de intentar iterar sobre él
+    if (Array.isArray(row)) {
+      const cardRowElement = document.createElement("div");
+      cardRowElement.className = "card-row";
+
+      // Agrega cada carta a la fila de cartas
+      row.forEach(card => {
+        if (card instanceof Node) {
+          cardRowElement.appendChild(card);
+        } else {
+          console.error("Carta no válida:", card);
+        }
+      });
+
+      // Agrega la fila de cartas al contenedor de cartas
+      cardsContainer.appendChild(cardRowElement);
+    } else {
+      console.error("La fila de cartas no es un array:", row);
+    }
   });
 }

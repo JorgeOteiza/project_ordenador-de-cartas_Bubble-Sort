@@ -54,20 +54,28 @@ function generateCard(randomSuit, randomCardNumber) {
 export function generateCardRows(cards, cardsPerRow) {
   const cardRows = [];
   for (let i = 0; i < cards.length; i += cardsPerRow) {
-    const row = generateCardRow(cards.slice(i, i + cardsPerRow));
+    const rowCards = cards.slice(i, i + cardsPerRow);
+    const row = generateCardRow(rowCards); // Aquí se genera la fila de cartas
     cardRows.push(row);
   }
   return cardRows;
 }
 
 // Función para generar una fila de cartas con las cartas
-function generateCardRow(cards) {
-  const row = document.createElement("div");
+export function generateCardRow(cards) {
+  const row = document.createElement("div"); // Creamos un elemento div para la fila
   row.className = "card-row";
+  const invalidNodes = []; // Para almacenar los nodos inválidos
+
   cards.forEach(card => {
-    row.appendChild(card);
+    if (card instanceof Node) {
+      row.appendChild(card); // Agregamos cada carta válida al elemento div de la fila
+    } else {
+      invalidNodes.push(card); // Agregamos los nodos inválidos a la lista
+    }
   });
-  return row;
+
+  return row; // Devolvemos el elemento div de la fila
 }
 
 // Función para generar cartas ordenadas
