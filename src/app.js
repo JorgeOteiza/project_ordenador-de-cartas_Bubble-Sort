@@ -23,6 +23,8 @@ document.addEventListener("DOMContentLoaded", function() {
   sortButton.addEventListener("click", sortAndAnimate);
 });
 
+let originalCards = [];
+
 function draw() {
   console.log("Antes de llamar a draw()");
   const bubbleLogContainer = document.getElementById("bubbleLog");
@@ -37,29 +39,33 @@ function draw() {
     return;
   }
 
-  // Genera y muestra las cartas
-  const cards = generateCards(numCards);
-  const numCardsPerRow = calculateCardsPerRow(cards.length, 1);
-  const cardRows = generateCardRows(cards, numCardsPerRow);
+  // Genera las cartas y las almacena en originalCards
+  originalCards = generateCards(numCards);
+  const numCardsPerRow = calculateCardsPerRow(numCards, 1);
+  const cardRows = generateCardRows(originalCards, numCardsPerRow);
   displayCards(cardRows);
   console.log("Después de llamar a draw()");
 }
 
 function sortAndAnimate() {
   console.log("Antes de llamar a sortAndAnimate()");
-  const cardsContainer = document.getElementById("cardsContainer");
-  const allCards = Array.from(cardsContainer.querySelectorAll(".card"));
 
-  // Obtiene el texto de cada carta para ordenar
-  const cardTexts = allCards.map(
+  // Utiliza las cartas originales para ordenar
+  const cardTexts = originalCards.map(
     card => card.querySelector(".centered-text").textContent
   );
 
-  // Ordena las cartas
-  const bubbleLog = bubbleSort(cardTexts);
+  // Realiza el ordenamiento y registra los cambios en el bubble log
+  const { sortedCards, bubbleLog } = bubbleSort(cardTexts);
 
   // Muestra el registro de bubble sort
-  displayBubbleLog(bubbleLog, allCards.length);
+  displayBubbleLog(bubbleLog, sortedCards.length);
+
+  // Actualiza el orden de las cartas en la interfaz
+  sortedCards.forEach((cardText, index) => {
+    originalCards[index].querySelector(".centered-text").textContent = cardText;
+  });
+
   console.log("Después de llamar a sortAndAnimate()");
 }
 

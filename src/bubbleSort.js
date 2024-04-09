@@ -1,29 +1,30 @@
-/* eslint-disable no-console */
-
+// Definimos la función bubbleSort para ordenar las cartas y registrar los cambios en el bubble log
 export function bubbleSort(cardTexts) {
-  const n = cardTexts.length;
-  let swapped;
+  // Inicializamos el bubble log como un array vacío al comienzo
   const bubbleLog = [];
 
-  // Realiza el bubble sort
-  for (let i = 0; i < n - 1; i++) {
+  const len = cardTexts.length;
+  let swapped;
+
+  do {
     swapped = false;
-    for (let j = 0; j < n - i - 1; j++) {
-      // Compara el elemento actual con el siguiente
-      if (compareCards(cardTexts[j], cardTexts[j + 1]) > 0) {
-        // Intercambia los elementos si el actual es mayor que el siguiente
-        const temp = cardTexts[j];
-        cardTexts[j] = cardTexts[j + 1];
-        cardTexts[j + 1] = temp;
+
+    for (let i = 0; i < len; i++) {
+      if (cardTexts[i] > cardTexts[i + 1]) {
+        const temp = cardTexts[i];
+        cardTexts[i] = cardTexts[i + 1];
+        cardTexts[i + 1] = temp;
+
+        // Antes de realizar el intercambio, agregamos una copia del array actual al bubble log
+        bubbleLog.push([...cardTexts]);
+
         swapped = true;
       }
     }
-    // Agrega una copia del arreglo ordenado al bubbleLog después de cada pasada
-    bubbleLog.push([...cardTexts]);
-    // Si no hubo intercambios en esta pasada, el arreglo está ordenado y podemos salir del bucle
-    if (!swapped) break;
-  }
-  return bubbleLog;
+  } while (swapped);
+
+  // Devolvemos tanto el array ordenado como el bubble log
+  return { sortedCards: cardTexts, bubbleLog };
 }
 
 function compareCards(cardText1, cardText2) {
