@@ -1,24 +1,29 @@
 /* eslint-disable no-console */
 
-export function bubbleSort(cardTexts, bubbleLog) {
+export function bubbleSort(cardTexts) {
+  const n = cardTexts.length;
   let swapped;
-  do {
+  const bubbleLog = [];
+
+  // Realiza el bubble sort
+  for (let i = 0; i < n - 1; i++) {
     swapped = false;
-    for (let i = 0; i < cardTexts.length - 1; i++) {
+    for (let j = 0; j < n - i - 1; j++) {
       // Compara el elemento actual con el siguiente
-      if (compareCards(cardTexts[i], cardTexts[i + 1]) > 0) {
+      if (compareCards(cardTexts[j], cardTexts[j + 1]) > 0) {
         // Intercambia los elementos si el actual es mayor que el siguiente
-        const temp = cardTexts[i];
-        cardTexts[i] = cardTexts[i + 1];
-        cardTexts[i + 1] = temp;
+        const temp = cardTexts[j];
+        cardTexts[j] = cardTexts[j + 1];
+        cardTexts[j + 1] = temp;
         swapped = true;
-        // Agregamos un console.log para verificar el bubbleLog en cada iteración
-        console.log("bubbleLog:", bubbleLog);
-        bubbleLog.push([...cardTexts]); // Agregar una copia del arreglo ordenado al bubbleLog
       }
     }
-  } while (swapped);
-  return cardTexts;
+    // Agrega una copia del arreglo ordenado al bubbleLog después de cada pasada
+    bubbleLog.push([...cardTexts]);
+    // Si no hubo intercambios en esta pasada, el arreglo está ordenado y podemos salir del bucle
+    if (!swapped) break;
+  }
+  return bubbleLog;
 }
 
 function compareCards(cardText1, cardText2) {
@@ -52,6 +57,6 @@ function getValueFromCardText(cardText) {
 }
 
 function getSuitFromCardText(cardText) {
-  // Implement logic to extract suit from card text (e.g., "♠" for spades)
+  // Implementa logic para extraer suit from card text (e.g., "♠" para spades)
   return cardText.split("")[0];
 }

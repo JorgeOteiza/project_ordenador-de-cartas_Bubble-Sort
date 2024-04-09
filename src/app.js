@@ -1,8 +1,11 @@
 /* eslint-disable no-console */
 
-import { generateCards } from "./generateCards.js";
+import {
+  generateCards,
+  generateCardRows,
+  displayCards
+} from "./generateCards.js";
 import { bubbleSort } from "./bubbleSort.js";
-import { generateCardRows, generateOrderedCards } from "./generateCards.js";
 
 document.addEventListener("DOMContentLoaded", function() {
   // Verifica la compatibilidad de navegadores
@@ -12,14 +15,13 @@ document.addEventListener("DOMContentLoaded", function() {
     );
     return;
   }
+
   const drawButton = document.getElementById("draw");
   const sortButton = document.getElementById("sort");
 
   drawButton.addEventListener("click", draw);
   sortButton.addEventListener("click", sortAndAnimate);
 });
-
-let initialCardState = [];
 
 function draw() {
   console.log("Antes de llamar a draw()");
@@ -36,11 +38,10 @@ function draw() {
   }
 
   // Genera y muestra las cartas
-  const cards = generateCards(numCards); // genera las cartas
-  initialCardState = cards.slice();
-  const numCardsPerRow = calculateCardsPerRow(cards.length, 1); // calcula el número de cartas por fila
-  const cardRows = generateCardRows(cards, numCardsPerRow); // genera las filas de cartas
-  displayCards(cardRows); // muestra las filas de cartas en el contenedor
+  const cards = generateCards(numCards);
+  const numCardsPerRow = calculateCardsPerRow(cards.length, 1);
+  const cardRows = generateCardRows(cards, numCardsPerRow);
+  displayCards(cardRows);
   console.log("Después de llamar a draw()");
 }
 
@@ -55,8 +56,7 @@ function sortAndAnimate() {
   );
 
   // Ordena las cartas
-  const bubbleLog = [];
-  bubbleSort(cardTexts, bubbleLog);
+  const bubbleLog = bubbleSort(cardTexts);
 
   // Muestra el registro de bubble sort
   displayBubbleLog(bubbleLog, allCards.length);
@@ -93,38 +93,4 @@ function displayBubbleLog(bubbleLog, totalCards) {
 function calculateCardsPerRow(totalCards, numSteps) {
   const numCards = totalCards / numSteps; // Calcular la cantidad promedio de cartas por paso
   return Math.ceil(numCards); // Redondear hacia arriba para garantizar al menos 1 carta por fila
-}
-
-function displayCards(cardRows) {
-  const cardsContainer = document.getElementById("cardsContainer");
-  if (!cardsContainer) {
-    console.error("No se encontró el contenedor de cartas en el DOM.");
-    return;
-  }
-
-  // Limpia el contenedor antes de agregar las cartas
-  cardsContainer.innerHTML = "";
-
-  // Agrega las filas de cartas al contenedor de cartas
-  cardRows.forEach(row => {
-    // Verifica si row es un array antes de intentar iterar sobre él
-    if (Array.isArray(row)) {
-      const cardRowElement = document.createElement("div");
-      cardRowElement.className = "card-row";
-
-      // Agrega cada carta a la fila de cartas
-      row.forEach(card => {
-        if (card instanceof Node) {
-          cardRowElement.appendChild(card);
-        } else {
-          console.error("Carta no válida:", card);
-        }
-      });
-
-      // Agrega la fila de cartas al contenedor de cartas
-      cardsContainer.appendChild(cardRowElement);
-    } else {
-      console.error("La fila de cartas no es un array:", row);
-    }
-  });
 }

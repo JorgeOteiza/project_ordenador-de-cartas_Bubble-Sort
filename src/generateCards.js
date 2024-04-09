@@ -46,8 +46,7 @@ function generateCard(randomSuit, randomCardNumber) {
   card.appendChild(centeredText);
   card.appendChild(bottomSymbol);
 
-  // console.log("Card generated:", card);
-  return card; // Devuelve el nodo de la carta
+  return card;
 }
 
 // Función para generar filas de cartas
@@ -55,53 +54,40 @@ export function generateCardRows(cards, cardsPerRow) {
   const cardRows = [];
   for (let i = 0; i < cards.length; i += cardsPerRow) {
     const rowCards = cards.slice(i, i + cardsPerRow);
-    const row = generateCardRow(rowCards); // Aquí se genera la fila de cartas
+    const row = generateCardRow(rowCards);
     cardRows.push(row);
   }
   return cardRows;
 }
 
 // Función para generar una fila de cartas con las cartas
-export function generateCardRow(cards) {
-  const row = document.createElement("div"); // Creamos un elemento div para la fila
+function generateCardRow(cards) {
+  const row = document.createElement("div");
   row.className = "card-row";
-  const invalidNodes = []; // Para almacenar los nodos inválidos
+  const invalidNodes = [];
 
   cards.forEach(card => {
     if (card instanceof Node) {
-      row.appendChild(card); // Agregamos cada carta válida al elemento div de la fila
+      row.appendChild(card);
     } else {
-      invalidNodes.push(card); // Agregamos los nodos inválidos a la lista
+      invalidNodes.push(card);
     }
   });
 
-  return row; // Devolvemos el elemento div de la fila
+  return row;
 }
 
-// Función para generar cartas ordenadas
-export function generateOrderedCards(allCards, bubbleLog) {
-  // Creamos una copia de las cartas originales para no modificar el estado inicial
-  const orderedCards = allCards.slice();
+// Función para mostrar las cartas en el contenedor especificado
+export function displayCards(cardRows) {
+  const cardsContainer = document.getElementById("cardsContainer");
+  if (!cardsContainer) {
+    // console.error("Elemento cardsContainer no encontrado en el DOM.");
+    return;
+  }
 
-  // Recorremos el registro de burbujas para aplicar los intercambios de cartas
-  bubbleLog.forEach(step => {
-    step.forEach((cardIndex, index) => {
-      // Obtenemos las cartas correspondientes a los índices
-      const currentCard = orderedCards[cardIndex];
-      const nextCard = orderedCards[index + 1];
+  cardsContainer.innerHTML = ""; // Limpiar el contenedor antes de mostrar las cartas
 
-      // Intercambiamos las cartas si es necesario para ordenarlas
-      if (
-        currentCard &&
-        nextCard &&
-        currentCard.textContent > nextCard.textContent
-      ) {
-        // Inserta la carta actual en la posición correcta
-        orderedCards.splice(index + 1, 0, currentCard);
-        orderedCards.splice(cardIndex, 1);
-      }
-    });
+  cardRows.forEach(row => {
+    cardsContainer.appendChild(row);
   });
-
-  return orderedCards;
 }
