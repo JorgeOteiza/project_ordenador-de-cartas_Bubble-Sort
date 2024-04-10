@@ -49,45 +49,26 @@ function generateCard(randomSuit, randomCardNumber) {
   return card;
 }
 
-// Función para generar filas de cartas
-export function generateCardRows(cards, cardsPerRow) {
-  const cardRows = [];
-  for (let i = 0; i < cards.length; i += cardsPerRow) {
-    const rowCards = cards.slice(i, i + cardsPerRow);
-    const row = generateCardRow(rowCards);
-    cardRows.push(row);
-  }
-  return cardRows;
-}
-
 // Función para generar una fila de cartas con las cartas
-function generateCardRow(cards) {
+export function generateCardRow(cards) {
   const row = document.createElement("div");
   row.className = "card-row";
-  const invalidNodes = [];
 
   cards.forEach(card => {
-    if (card instanceof Node) {
-      row.appendChild(card);
-    } else {
-      invalidNodes.push(card);
-    }
+    row.appendChild(card);
   });
 
   return row;
 }
 
-// Función para mostrar las cartas en el contenedor especificado
-export function displayCards(cardRows) {
-  const cardsContainer = document.getElementById("cardsContainer");
-  if (!cardsContainer) {
-    // console.error("Elemento cardsContainer no encontrado en el DOM.");
-    return;
-  }
+// Función para generar una columna de cartas
+export function generateCardColumn(cards) {
+  const column = document.createElement("div");
+  column.className = "card-column";
 
-  cardsContainer.innerHTML = ""; // Limpiar el contenedor antes de mostrar las cartas
-
-  cardRows.forEach(row => {
-    cardsContainer.appendChild(row);
+  cards.forEach(card => {
+    column.appendChild(card);
   });
+
+  return column;
 }

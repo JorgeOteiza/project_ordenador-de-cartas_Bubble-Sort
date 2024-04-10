@@ -1,9 +1,10 @@
 /* eslint-disable no-console */
 
 import {
-  generateCards,
+  displayCards,
   generateCardRows,
-  displayCards
+  generateCardColumn,
+  generateCards
 } from "./generateCards.js";
 import { bubbleSort } from "./bubbleSort.js";
 
@@ -24,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 let originalCards = [];
+let bubbleLog = [];
 
 function draw() {
   console.log("Antes de llamar a draw()");
@@ -32,12 +34,6 @@ function draw() {
 
   const numCardsInput = document.getElementById("numCards");
   const numCards = parseInt(numCardsInput.value);
-  const cardsContainer = document.getElementById("cardsContainer");
-
-  if (!cardsContainer) {
-    console.error("Elemento cardsContainer no encontrado en el DOM.");
-    return;
-  }
 
   // Genera las cartas y las almacena en originalCards
   originalCards = generateCards(numCards);
@@ -55,21 +51,20 @@ function sortAndAnimate() {
     card => card.querySelector(".centered-text").textContent
   );
 
+  // Reinicia el registro de cambios
+  bubbleLog = [];
+
   // Realiza el ordenamiento y registra los cambios en el bubble log
-  const { sortedCards, bubbleLog } = bubbleSort(cardTexts);
+  const { sortedCards, log } = bubbleSort(cardTexts);
+  bubbleLog = log;
 
   // Muestra el registro de bubble sort
-  displayBubbleLog(bubbleLog, sortedCards.length);
-
-  // Actualiza el orden de las cartas en la interfaz
-  sortedCards.forEach((cardText, index) => {
-    originalCards[index].querySelector(".centered-text").textContent = cardText;
-  });
+  displayBubbleLog();
 
   console.log("Después de llamar a sortAndAnimate()");
 }
 
-function displayBubbleLog(bubbleLog, totalCards) {
+function displayBubbleLog() {
   const bubbleLogContainer = document.getElementById("bubbleLog");
   bubbleLogContainer.innerHTML = ""; // Limpia el contenedor de registro
 
@@ -79,16 +74,12 @@ function displayBubbleLog(bubbleLog, totalCards) {
     return;
   }
 
-  // Definir el número de cartas por fila
-  const numCardsPerRow = calculateCardsPerRow(totalCards, bubbleLog.length);
-
-  // Recorre cada paso del registro y muestra las filas de cartas
+  // Recorre cada paso del registro y muestra las columnas de cambios
   bubbleLog.forEach((step, index) => {
-    const cardRows = generateCardRows(step, numCardsPerRow);
-    cardRows.forEach(row => {
-      bubbleLogContainer.appendChild(row);
-    });
-    // Agregar un espacio entre cada fila generada
+    const column = generateCardColumn(step);
+    bubbleLogContainer.appendChild(column);
+
+    // Agregar un espacio entre cada columna generada
     if (index < bubbleLog.length - 1) {
       bubbleLogContainer.appendChild(document.createElement("br"));
     }
