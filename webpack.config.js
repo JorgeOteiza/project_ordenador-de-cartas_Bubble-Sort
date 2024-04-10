@@ -26,7 +26,8 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     public: publicUrl,
-    stats: "errors-warnings"
+    stats: "errors-warnings",
+    disableHostCheck: true
   },
   module: {
     rules: [
