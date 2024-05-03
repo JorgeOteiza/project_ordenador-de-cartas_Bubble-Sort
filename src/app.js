@@ -60,50 +60,41 @@ function sortAndAnimate() {
   isSorting = true;
 
   const cardsContainer = document.getElementById("cardsContainer");
+  const sortedCardsContainer = document.getElementById("sortedCardsContainer");
   const bubbleLogContainer = document.getElementById("bubbleLog");
   const allCards = Array.from(cardsContainer.querySelectorAll(".card"));
 
-  // Obtiene el texto de cada carta para ordenar
-  console.log("sortAndAnimate se ha ejecutado");
   const cardTexts = allCards.map(
     card => card.querySelector(".centered-text").textContent
   );
 
-  // Muestra un mensaje de que se está ordenando
   console.log("Ordenando...");
 
-  // Ordena las cartas
   const sortedCardLogs = bubbleSort(cardTexts);
 
-  // Animación de transición
   sortedCardLogs.forEach((sortedCardTexts, index) => {
     setTimeout(() => {
-      // Si este es el primer paso del algoritmo, muestra un mensaje de que se ha comenzado a ordenar
-      if (index === 0) {
-        console.log("Ordenando...");
-      }
-
-      // Genera una nueva fila de cartas para cada paso del algoritmo
       const newCards = sortedCardTexts.map(text => {
-        // Encuentra la carta original que coincide con el texto
         const originalCard = allCards.find(
           card => card.querySelector(".centered-text").textContent === text
         );
-        // Clona la carta original
         const newCard = originalCard.cloneNode(true);
         return newCard;
       });
       const newCardRow = generateCardRow(newCards);
 
-      // Agrega la nueva fila de cartas al contenedor
-      cardsContainer.appendChild(newCardRow);
-    }, 300 * index); // Ajusta el tiempo de espera según sea necesario
+      sortedCardsContainer.appendChild(newCardRow);
+      bubbleLogContainer.appendChild(newCardRow);
 
-    // Si este es el último paso del algoritmo, muestra un mensaje de que se ha terminado de ordenar
-    if (index === sortedCardLogs.length - 1) {
-      console.log("¡Ordenamiento completado!");
-      isSorting = false;
-    }
+      if (index === sortedCardLogs.length - 1) {
+        console.log("¡Ordenamiento completado!");
+        isSorting = false;
+
+        // Actualizar la interfaz aquí al final del proceso de ordenamiento
+        // Esto asegurará que los cambios se reflejen solo una vez al final
+        // Aquí puedo agregar aquí cualquier otra lógica de atualización
+      }
+    }, 300 * index);
   });
 }
 
