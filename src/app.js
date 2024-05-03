@@ -58,6 +58,9 @@ function sortAndAnimate() {
     card => card.querySelector(".centered-text").textContent
   );
 
+  // Muestra un mensaje de que se está ordenando
+  console.log("Ordenando...");
+
   // Ordena las cartas
   const sortedCardLogs = bubbleSort(cardTexts);
 
@@ -78,6 +81,11 @@ function sortAndAnimate() {
 
       // Agrega la nueva fila de cartas al contenedor bubbleLog
       bubbleLogContainer.appendChild(newCardRow);
+
+      // Si este es el último paso del algoritmo, muestra un mensaje de que se ha terminado de ordenar
+      if (index === sortedCardLogs.length - 1) {
+        console.log("¡Ordenamiento completado!");
+      }
     }, 300 * index); // Ajusta el tiempo de espera según sea necesario
   });
 }

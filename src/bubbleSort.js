@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 
 export function bubbleSort(cardTexts) {
-  let swapped = true;
+  let swapped;
   let log = [Array.from(cardTexts)];
-  while (swapped) {
+  do {
     swapped = false;
     for (let i = 0; i < cardTexts.length - 1; i++) {
       if (compareCards(cardTexts[i], cardTexts[i + 1]) > 0) {
@@ -11,10 +11,13 @@ export function bubbleSort(cardTexts) {
         cardTexts[i] = cardTexts[i + 1];
         cardTexts[i + 1] = temp;
         swapped = true;
-        log.push(Array.from(cardTexts));
       }
     }
-  }
+    // Agrega el estado de las cartas al registro después de una pasada completa
+    if (swapped) {
+      log.push(Array.from(cardTexts));
+    }
+  } while (swapped);
   return log;
 }
 
