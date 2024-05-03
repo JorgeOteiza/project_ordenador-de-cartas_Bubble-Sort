@@ -3,7 +3,14 @@
 import { generateCards } from "./generateCards.js";
 import { bubbleSort } from "./bubbleSort.js";
 
+const drawButton = document.getElementById("draw");
+const sortButton = document.getElementById("sort");
+
+drawButton.addEventListener("click", draw);
+sortButton.addEventListener("click", sortAndAnimate);
+
 document.addEventListener("DOMContentLoaded", function() {
+  console.log("DOMContentLoaded se ha ejecutado");
   // Verifica la compatibilidad de navegadores
   if (!document.getElementById || !Array.from) {
     console.error(
@@ -11,11 +18,6 @@ document.addEventListener("DOMContentLoaded", function() {
     );
     return;
   }
-  const drawButton = document.getElementById("draw");
-  const sortButton = document.getElementById("sort");
-
-  drawButton.addEventListener("click", draw);
-  sortButton.addEventListener("click", sortAndAnimate);
 });
 
 let initialCardState = [];
@@ -48,12 +50,21 @@ function draw() {
   displayCards(cards);
 }
 
+let isSorting = false;
+
 function sortAndAnimate() {
+  if (isSorting) {
+    return;
+  }
+
+  isSorting = true;
+
   const cardsContainer = document.getElementById("cardsContainer");
   const bubbleLogContainer = document.getElementById("bubbleLog");
   const allCards = Array.from(cardsContainer.querySelectorAll(".card"));
 
   // Obtiene el texto de cada carta para ordenar
+  console.log("sortAndAnimate se ha ejecutado");
   const cardTexts = allCards.map(
     card => card.querySelector(".centered-text").textContent
   );
@@ -67,6 +78,11 @@ function sortAndAnimate() {
   // Animación de transición
   sortedCardLogs.forEach((sortedCardTexts, index) => {
     setTimeout(() => {
+      // Si este es el primer paso del algoritmo, muestra un mensaje de que se ha comenzado a ordenar
+      if (index === 0) {
+        console.log("Ordenando...");
+      }
+
       // Genera una nueva fila de cartas para cada paso del algoritmo
       const newCards = sortedCardTexts.map(text => {
         // Encuentra la carta original que coincide con el texto
@@ -79,14 +95,15 @@ function sortAndAnimate() {
       });
       const newCardRow = generateCardRow(newCards);
 
-      // Agrega la nueva fila de cartas al contenedor bubbleLog
-      bubbleLogContainer.appendChild(newCardRow);
-
-      // Si este es el último paso del algoritmo, muestra un mensaje de que se ha terminado de ordenar
-      if (index === sortedCardLogs.length - 1) {
-        console.log("¡Ordenamiento completado!");
-      }
+      // Agrega la nueva fila de cartas al contenedor
+      cardsContainer.appendChild(newCardRow);
     }, 300 * index); // Ajusta el tiempo de espera según sea necesario
+
+    // Si este es el último paso del algoritmo, muestra un mensaje de que se ha terminado de ordenar
+    if (index === sortedCardLogs.length - 1) {
+      console.log("¡Ordenamiento completado!");
+      isSorting = false;
+    }
   });
 }
 

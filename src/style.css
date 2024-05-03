@@ -21,10 +21,12 @@ button {
   background-color: black;
   color: white;
   margin: 9px;
+  padding: 3px;
 }
 .card-row {
   display: flex;
   gap: 15px;
+  margin: 6px;
 }
 
 #numCards {
@@ -56,6 +58,10 @@ button {
   gap: 20px;
   justify-content: center;
   max-width: 800px;
+}
+
+.cards-container2 {
+  border-bottom: 1px solid color(goldenrod);
 }
 
 h5 {

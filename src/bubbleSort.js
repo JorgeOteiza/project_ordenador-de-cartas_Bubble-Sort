@@ -15,6 +15,7 @@ export function bubbleSort(cardTexts) {
     }
     // Agrega el estado de las cartas al registro después de una pasada completa
     if (swapped) {
+      console.log("Se ha añadido un estado al registro");
       log.push(Array.from(cardTexts));
     }
   } while (swapped);
