@@ -1,21 +1,21 @@
 /* eslint-disable no-console */
 
 export function bubbleSort(cardTexts) {
-  let swapped;
-  do {
+  let swapped = true;
+  let log = [Array.from(cardTexts)];
+  while (swapped) {
     swapped = false;
     for (let i = 0; i < cardTexts.length - 1; i++) {
-      // Compara el elemento actual con el siguiente
       if (compareCards(cardTexts[i], cardTexts[i + 1]) > 0) {
-        // Intercambia los elementos si el actual es mayor que el siguiente
         const temp = cardTexts[i];
         cardTexts[i] = cardTexts[i + 1];
         cardTexts[i + 1] = temp;
         swapped = true;
+        log.push(Array.from(cardTexts));
       }
     }
-  } while (swapped);
-  return cardTexts;
+  }
+  return log;
 }
 
 function compareCards(cardText1, cardText2) {

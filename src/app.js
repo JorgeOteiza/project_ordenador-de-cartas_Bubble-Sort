@@ -50,6 +50,7 @@ function draw() {
 
 function sortAndAnimate() {
   const cardsContainer = document.getElementById("cardsContainer");
+  const bubbleLogContainer = document.getElementById("bubbleLog");
   const allCards = Array.from(cardsContainer.querySelectorAll(".card"));
 
   // Obtiene el texto de cada carta para ordenar
@@ -58,51 +59,27 @@ function sortAndAnimate() {
   );
 
   // Ordena las cartas
-  const sortedCardTexts = bubbleSort(cardTexts);
+  const sortedCardLogs = bubbleSort(cardTexts);
 
   // Animación de transición
-  allCards.forEach((card, index) => {
+  sortedCardLogs.forEach((sortedCardTexts, index) => {
     setTimeout(() => {
-      // Agrega una clase de transición CSS
-      card.classList.add("transition");
-      // Espera un breve momento antes de actualizar el contenido
-      setTimeout(() => {
-        // Actualiza el texto de la carta
-        card.querySelector(".centered-text").textContent =
-          sortedCardTexts[index];
-      }, 200 * index); // Ajusta el tiempo de espera según sea necesario
+      // Genera una nueva fila de cartas para cada paso del algoritmo
+      const newCards = sortedCardTexts.map(text => {
+        // Encuentra la carta original que coincide con el texto
+        const originalCard = allCards.find(
+          card => card.querySelector(".centered-text").textContent === text
+        );
+        // Clona la carta original
+        const newCard = originalCard.cloneNode(true);
+        return newCard;
+      });
+      const newCardRow = generateCardRow(newCards);
+
+      // Agrega la nueva fila de cartas al contenedor bubbleLog
+      bubbleLogContainer.appendChild(newCardRow);
     }, 300 * index); // Ajusta el tiempo de espera según sea necesario
   });
-}
-
-function displayBubbleLog(bubbleLog) {
-  const bubbleLogContainer = document.getElementById("bubbleLog");
-
-  // Verificar si bubbleLog está definido y no es un array vacío
-  if (!Array.isArray(bubbleLog) || bubbleLog.length === 0) {
-    console.error("Invalid bubbleLog provided.");
-    return;
-  }
-
-  for (let i = 0; i < bubbleLog.length; i++) {
-    const currentLogElement = document.createElement("div");
-    currentLogElement.classList.add("cards-container");
-
-    if (Array.isArray(bubbleLog[i])) {
-      const currentLog = Array.from(bubbleLog[i]);
-      currentLog.forEach(currentCard => {
-        if (currentCard instanceof HTMLElement) {
-          currentLogElement.appendChild(currentCard);
-        } else {
-          console.error("Invalid entry in currentLog array.");
-        }
-      });
-    } else {
-      console.error("Invalid entry in bubbleLog array.");
-    }
-
-    bubbleLogContainer.appendChild(currentLogElement);
-  }
 }
 
 function displayCards(cards) {
