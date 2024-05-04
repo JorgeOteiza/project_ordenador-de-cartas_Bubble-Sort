@@ -89,12 +89,8 @@ function sortAndAnimate() {
       if (index === sortedCardLogs.length - 1) {
         console.log("¡Ordenamiento completado!");
         isSorting = false;
-
-        // Actualizar la interfaz aquí al final del proceso de ordenamiento
-        // Esto asegurará que los cambios se reflejen solo una vez al final
-        // Aquí puedo agregar aquí cualquier otra lógica de atualización
       }
-    }, 300 * index);
+    }, 300 * index); // Ajusta el tiempo de espera según sea necesario
   });
 }
 
