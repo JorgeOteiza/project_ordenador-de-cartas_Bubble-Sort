@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 export function bubbleSort(cardTexts) {
   let swapped;
   let log = [];
