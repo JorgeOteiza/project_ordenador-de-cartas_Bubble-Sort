@@ -2,7 +2,7 @@
 
 export function bubbleSort(cardTexts) {
   let swapped;
-  let log = [Array.from(cardTexts)];
+  let log = [];
   do {
     swapped = false;
     for (let i = 0; i < cardTexts.length - 1; i++) {
@@ -11,13 +11,10 @@ export function bubbleSort(cardTexts) {
         cardTexts[i] = cardTexts[i + 1];
         cardTexts[i + 1] = temp;
         swapped = true;
+        log.push([cardTexts.slice()]);
       }
     }
     // Agrega el estado de las cartas al registro después de una pasada completa
-    if (swapped) {
-      console.log("Se ha añadido un estado al registro");
-      log.push(Array.from(cardTexts));
-    }
   } while (swapped);
   return log;
 }

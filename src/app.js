@@ -78,11 +78,8 @@ function sortAndAnimate() {
         const originalCard = allCards.find(
           card => card.querySelector(".centered-text").textContent === text
         );
-        const newCard = originalCard.cloneNode(true);
-        return newCard;
       });
       const newCardRow = generateCardRow(newCards);
-
       sortedCardsContainer.appendChild(newCardRow);
       bubbleLogContainer.appendChild(newCardRow);
 
