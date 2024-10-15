@@ -64,3 +64,5 @@ function generateCardRow(cards) {
   });
   return row;
 }
+
+export { generateCardRow };

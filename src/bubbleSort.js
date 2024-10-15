@@ -9,12 +9,19 @@ export function bubbleSort(cardTexts) {
         cardTexts[i] = cardTexts[i + 1];
         cardTexts[i + 1] = temp;
         swapped = true;
-        log.push([cardTexts.slice()]);
+
+        // Solo registrar si el estado actual es distinto al último en `log`
+        if (log.length === 0 || !arraysEqual(log[log.length - 1], cardTexts)) {
+          log.push(cardTexts.slice());
+        }
       }
     }
-    // Agrega el estado de las cartas al registro después de una pasada completa
   } while (swapped);
   return log;
+}
+
+function arraysEqual(a, b) {
+  return a.length === b.length && a.every((value, index) => value === b[index]);
 }
 
 function compareCards(cardText1, cardText2) {
@@ -24,7 +31,7 @@ function compareCards(cardText1, cardText2) {
   const suit2 = getSuitFromCardText(cardText2);
 
   if (value1 !== value2) {
-    return value1 - value2; // El valor más bajo viene primero
+    return value1 - value2;
   } else {
     // Si los valores son iguales, compara los palos (corazones/diamantes son mayores)
     return suit2 === "♥" || suit2 === "♦" ? 1 : -1;
@@ -32,7 +39,7 @@ function compareCards(cardText1, cardText2) {
 }
 
 function getValueFromCardText(cardText) {
-  // Implementa la lógica para extraer el valor de la carta del texto (por ejemplo, A=1, J=11)
+  // Implementa la lógica para extraer el valor de la carta (por ejemplo, A=1, J=11)
   switch (cardText) {
     case "A":
       return 1;
@@ -48,6 +55,5 @@ function getValueFromCardText(cardText) {
 }
 
 function getSuitFromCardText(cardText) {
-  // Implement logic to extract suit from card text (e.g., "♠" for spades)
   return cardText.split("")[0];
 }
