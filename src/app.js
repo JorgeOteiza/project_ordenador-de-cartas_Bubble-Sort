@@ -43,7 +43,6 @@ function sortAndAnimate() {
   const bubbleLogContainer = document.getElementById("bubbleLog");
   const titleExists = bubbleLogContainer.querySelector(".bubble-log-title");
 
-  // Añadir el título "Bubble Log" si no existe
   if (!titleExists) {
     const title = document.createElement("h3");
     title.className = "bubble-log-title";
