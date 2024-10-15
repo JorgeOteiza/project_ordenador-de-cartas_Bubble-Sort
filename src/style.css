@@ -71,7 +71,6 @@ h5 {
 }
 
 .bubble-log {
-  display: flex;
   margin-top: 20px;
   flex-wrap: wrap;
   justify-content: center;

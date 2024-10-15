@@ -40,9 +40,18 @@ function sortAndAnimate() {
   if (isSorting) return;
   isSorting = true;
 
-  const cardsContainer = document.getElementById("cardsContainer");
-  const sortedCardsContainer = document.getElementById("sortedCardsContainer");
   const bubbleLogContainer = document.getElementById("bubbleLog");
+  const titleExists = bubbleLogContainer.querySelector(".bubble-log-title");
+
+  // Añadir el título "Bubble Log" si no existe
+  if (!titleExists) {
+    const title = document.createElement("h3");
+    title.className = "bubble-log-title";
+    title.textContent = "Bubble Log";
+    bubbleLogContainer.appendChild(title);
+  }
+
+  const cardsContainer = document.getElementById("cardsContainer");
   const allCards = Array.from(cardsContainer.querySelectorAll(".card"));
   const cardTexts = allCards.map(
     card => card.querySelector(".centered-text").textContent
@@ -63,8 +72,8 @@ function sortAndAnimate() {
 
       if (newCards.length > 0) {
         const newCardRow = generateCardRow(newCards);
-        sortedCardsContainer.appendChild(newCardRow);
 
+        // Registrar solo en el bubbleLogContainer
         if (!isDuplicateLog(bubbleLogContainer, newCardRow)) {
           bubbleLogContainer.appendChild(newCardRow.cloneNode(true));
         }
